@@ -1,0 +1,25 @@
+[project]
+name = "sirenas"
+version = "0.1.0"
+description = "Add your description here"
+authors = [
+    { name = "Lorenzo", email = "martincastelliv@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "h5py>=3.16.0",
+    "matplotlib>=3.11.2",
+    "numpy>=2.5.3",
+    "pandas>=3.0.6",
+    "pyyaml>=6.0.3",
+    "scipy>=1.18.1",
+]
+
+[build-system]
+requires = ["uv_build>=0.12.7,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]

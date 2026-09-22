@@ -1,0 +1,1274 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sirenas estándar en diez días</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:ital,wght@0,500;0,600;1,400&display=swap">
+<style>
+body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+
+:root{
+  --bg:#EEF0F5;
+  --surface:#FCFCFE;
+  --surface-2:#E5E8EF;
+  --ink:#15171E;
+  --ink-2:#3A3F4D;
+  --muted:#626A7C;
+  --line:#D5DAE4;
+  --line-strong:#B9C0CE;
+  --bright:#A85F13;
+  --bright-soft:#F0E2CE;
+  --dark:#464198;
+  --dark-soft:#E0DEF5;
+  --check:#136B57;
+  --check-soft:#D6EAE3;
+  --warn:#9B2C2C;
+  --shadow:0 1px 2px rgba(21,23,30,.06), 0 8px 24px -16px rgba(21,23,30,.28);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12141A;
+    --surface:#1A1D25;
+    --surface-2:#22262F;
+    --ink:#E9EBF2;
+    --ink-2:#C3C8D6;
+    --muted:#939BAF;
+    --line:#2B3039;
+    --line-strong:#3D4453;
+    --bright:#E3A45C;
+    --bright-soft:#3A2E1C;
+    --dark:#A29CF5;
+    --dark-soft:#26234A;
+    --check:#5BC5A5;
+    --check-soft:#16332C;
+    --warn:#EC8A8A;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12141A;
+  --surface:#1A1D25;
+  --surface-2:#22262F;
+  --ink:#E9EBF2;
+  --ink-2:#C3C8D6;
+  --muted:#939BAF;
+  --line:#2B3039;
+  --line-strong:#3D4453;
+  --bright:#E3A45C;
+  --bright-soft:#3A2E1C;
+  --dark:#A29CF5;
+  --dark-soft:#26234A;
+  --check:#5BC5A5;
+  --check-soft:#16332C;
+  --warn:#EC8A8A;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.8);
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px 96px}
+.prose{max-width:66ch}
+
+h1,h2,h3,h4{font-family:"IBM Plex Serif",Georgia,serif;text-wrap:balance;margin:0}
+h1{font-size:clamp(2.1rem,4.4vw,3.1rem);font-weight:600;line-height:1.08;letter-spacing:-.015em}
+h2{font-size:clamp(1.45rem,2.4vw,1.85rem);font-weight:600;line-height:1.2}
+h3{font-size:1.08rem;font-weight:600;line-height:1.3}
+h4{font-size:.98rem;font-weight:600}
+p{margin:0}
+a{color:inherit;text-underline-offset:3px;text-decoration-color:var(--line-strong)}
+a:hover{text-decoration-color:currentColor}
+:focus-visible{outline:2px solid var(--dark);outline-offset:3px;border-radius:3px}
+
+.eyebrow{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:.7rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);
+}
+
+/* ---------- nav ---------- */
+nav.top{
+  position:sticky;top:0;z-index:40;
+  background:color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+nav.top .inner{
+  max-width:1120px;margin:0 auto;padding:9px 24px;
+  display:flex;gap:4px;align-items:center;flex-wrap:wrap;
+}
+nav.top a{
+  font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.03em;
+  color:var(--muted);text-decoration:none;padding:5px 9px;border-radius:5px;
+}
+nav.top a:hover{color:var(--ink);background:var(--surface-2)}
+nav.top .brand{
+  font-family:"IBM Plex Mono",monospace;font-size:.72rem;font-weight:600;
+  color:var(--ink);padding:5px 12px 5px 0;margin-right:6px;
+  border-right:1px solid var(--line);letter-spacing:.02em;
+}
+
+/* ---------- header ---------- */
+header.hero{padding:56px 0 40px}
+header.hero h1{margin:14px 0 18px;max-width:16ch}
+.lede{font-size:1.12rem;color:var(--ink-2);max-width:62ch}
+.meta-row{
+  display:flex;flex-wrap:wrap;gap:0;margin-top:34px;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+}
+.meta-row div{
+  padding:14px 22px 14px 0;margin-right:22px;border-right:1px solid var(--line);
+}
+.meta-row div:last-child{border-right:0}
+.meta-row b{
+  display:block;font-family:"IBM Plex Mono",monospace;font-size:1.28rem;font-weight:600;
+  font-variant-numeric:tabular-nums;letter-spacing:-.02em;
+}
+.meta-row span{font-size:.78rem;color:var(--muted)}
+
+section{padding-top:64px;scroll-margin-top:56px}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:8px;flex-wrap:wrap}
+.sec-head .num{
+  font-family:"IBM Plex Mono",monospace;font-size:.72rem;color:var(--muted);
+  letter-spacing:.1em;
+}
+.sec-sub{color:var(--muted);font-size:.95rem;margin-top:10px;max-width:64ch}
+
+/* ---------- question block ---------- */
+.question{
+  margin-top:26px;padding:26px 30px;background:var(--surface);
+  border:1px solid var(--line);border-left:3px solid var(--dark);
+  border-radius:2px 8px 8px 2px;box-shadow:var(--shadow);
+}
+.question p{font-family:"IBM Plex Serif",serif;font-size:1.14rem;line-height:1.5;max-width:60ch}
+.question .tag{margin-bottom:12px}
+.eq{
+  font-family:"IBM Plex Mono",monospace;font-size:.95rem;
+  background:var(--surface-2);padding:3px 7px;border-radius:4px;white-space:nowrap;
+}
+
+/* ---------- generic card grid ---------- */
+.grid{display:grid;gap:14px;margin-top:24px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.card{
+  background:var(--surface);border:1px solid var(--line);border-radius:8px;
+  padding:20px 22px;display:flex;flex-direction:column;gap:9px;
+}
+.card h4{color:var(--ink)}
+.card p{font-size:.9rem;color:var(--ink-2)}
+
+/* ---------- reading list ---------- */
+.tier{margin-top:34px}
+.tier-head{
+  display:flex;align-items:center;gap:12px;
+  padding-bottom:9px;border-bottom:1px solid var(--line-strong);margin-bottom:2px;
+}
+.tier-head .lvl{
+  font-family:"IBM Plex Mono",monospace;font-size:.7rem;font-weight:600;
+  letter-spacing:.08em;padding:3px 8px;border-radius:4px;
+  background:var(--surface-2);color:var(--muted);
+}
+.tier-head h3{flex:1}
+.tier-head .budget{
+  font-family:"IBM Plex Mono",monospace;font-size:.76rem;color:var(--muted);
+  font-variant-numeric:tabular-nums;
+}
+.tier-why{font-size:.88rem;color:var(--muted);margin:10px 0 4px;max-width:70ch}
+
+.item{
+  display:grid;grid-template-columns:26px 1fr;gap:0 14px;
+  padding:16px 0;border-bottom:1px solid var(--line);align-items:start;
+}
+.item:last-child{border-bottom:0}
+.item.done .item-body{opacity:.5}
+.tick{
+  appearance:none;-webkit-appearance:none;margin:3px 0 0;
+  width:17px;height:17px;border:1.5px solid var(--line-strong);border-radius:4px;
+  background:var(--surface);cursor:pointer;position:relative;flex:none;
+}
+.tick:checked{background:var(--check);border-color:var(--check)}
+.tick:checked::after{
+  content:"";position:absolute;left:5px;top:1px;width:4px;height:9px;
+  border:solid var(--surface);border-width:0 2px 2px 0;transform:rotate(42deg);
+}
+.item-body{display:flex;flex-direction:column;gap:6px;min-width:0}
+.item-title{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline}
+.item-title .t{font-weight:600;font-size:.98rem;line-height:1.35}
+.chip{
+  font-family:"IBM Plex Mono",monospace;font-size:.63rem;font-weight:600;
+  letter-spacing:.07em;text-transform:uppercase;padding:2px 7px;border-radius:3px;
+  border:1px solid transparent;white-space:nowrap;
+}
+.chip.core{background:var(--bright-soft);color:var(--bright);border-color:color-mix(in srgb,var(--bright) 32%,transparent)}
+.chip.sup{background:var(--dark-soft);color:var(--dark);border-color:color-mix(in srgb,var(--dark) 30%,transparent)}
+.chip.ref{background:var(--surface-2);color:var(--muted);border-color:var(--line-strong)}
+.chip.wa{background:transparent;color:var(--bright);border-color:color-mix(in srgb,var(--bright) 45%,transparent)}
+.chip.wb{background:transparent;color:var(--dark);border-color:color-mix(in srgb,var(--dark) 45%,transparent)}
+.chip.wab{background:transparent;color:var(--check);border-color:color-mix(in srgb,var(--check) 45%,transparent)}
+.owner-key{
+  display:flex;gap:14px;flex-wrap:wrap;margin-top:16px;padding:12px 16px;
+  border:1px solid var(--line);border-radius:7px;background:var(--surface);
+  font-size:.83rem;color:var(--muted);align-items:center;
+}
+.owner-key b{color:var(--ink);font-weight:600}
+.item-ref{
+  font-family:"IBM Plex Mono",monospace;font-size:.76rem;color:var(--muted);
+  display:flex;flex-wrap:wrap;gap:4px 10px;
+}
+.item-ref a{color:var(--dark);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--dark) 35%,transparent)}
+.item-ref a:hover{border-bottom-color:var(--dark)}
+.item-why{font-size:.89rem;color:var(--ink-2);max-width:74ch}
+.item-why b{color:var(--ink);font-weight:600}
+.item-read{
+  font-size:.82rem;color:var(--muted);
+  border-left:2px solid var(--line-strong);padding-left:10px;max-width:74ch;
+}
+
+/* ---------- skip list ---------- */
+.skip{
+  margin-top:22px;padding:20px 24px;border:1px dashed var(--line-strong);
+  border-radius:8px;background:transparent;
+}
+.skip ul{margin:12px 0 0;padding-left:0;list-style:none;display:grid;gap:8px}
+.skip li{
+  font-size:.9rem;color:var(--ink-2);padding-left:22px;position:relative;
+}
+.skip li::before{
+  content:"—";position:absolute;left:0;top:0;color:var(--warn);
+  font-family:"IBM Plex Mono",monospace;
+}
+.skip li b{color:var(--ink)}
+
+/* ---------- derivations ---------- */
+.deriv{counter-reset:d;display:grid;gap:0;margin-top:22px}
+.deriv .item{grid-template-columns:26px 30px 1fr;gap:0 12px}
+.deriv .dnum{
+  counter-increment:d;font-family:"IBM Plex Mono",monospace;font-size:.8rem;
+  color:var(--muted);font-variant-numeric:tabular-nums;padding-top:3px;
+}
+.deriv .dnum::before{content:counter(d,decimal-leading-zero)}
+
+/* ---------- weeks ---------- */
+.weeks{display:grid;gap:20px;margin-top:26px;grid-template-columns:repeat(auto-fit,minmax(310px,1fr))}
+.week{
+  background:var(--surface);border:1px solid var(--line);border-radius:10px;
+  overflow:hidden;display:flex;flex-direction:column;
+}
+.week-head{padding:18px 22px 14px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.week-head .wk{font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+.week-head h3{margin-top:5px}
+.week-head p{font-size:.84rem;color:var(--muted);margin-top:6px}
+.days{padding:6px 22px 18px;display:flex;flex-direction:column}
+.day{padding:13px 0;border-bottom:1px solid var(--line);display:flex;gap:12px}
+.day:last-of-type{border-bottom:0}
+.day .d{
+  font-family:"IBM Plex Mono",monospace;font-size:.72rem;font-weight:600;
+  color:var(--muted);flex:none;width:44px;padding-top:2px;font-variant-numeric:tabular-nums;
+}
+.day .c{display:flex;flex-direction:column;gap:5px;min-width:0}
+.day .c strong{font-size:.9rem;font-weight:600}
+.day .c span{font-size:.84rem;color:var(--ink-2)}
+.lane{
+  font-family:"IBM Plex Mono",monospace;font-size:.63rem;font-weight:600;
+  letter-spacing:.06em;padding:1px 6px;border-radius:3px;margin-right:6px;
+  display:inline-block;vertical-align:1px;
+}
+.lane.a{background:var(--bright-soft);color:var(--bright)}
+.lane.b{background:var(--dark-soft);color:var(--dark)}
+.lane.ab{background:var(--check-soft);color:var(--check)}
+.milestone{
+  margin:14px 22px 20px;padding:13px 16px;border-radius:7px;
+  background:var(--check-soft);border:1px solid color-mix(in srgb,var(--check) 28%,transparent);
+}
+.milestone .lbl{
+  font-family:"IBM Plex Mono",monospace;font-size:.64rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--check);font-weight:600;
+}
+.milestone p{font-size:.86rem;color:var(--ink-2);margin-top:5px}
+
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:18px;font-size:.83rem;color:var(--muted)}
+.legend span{display:flex;align-items:center;gap:7px}
+.legend i{width:11px;height:11px;border-radius:3px;display:block}
+
+/* ---------- reunión cero ---------- */
+.rules.wide{grid-template-columns:1fr}
+.rules.wide .rule{grid-template-columns:72px 1fr}
+.rules.wide .rule .mk{
+  font-size:.72rem;color:var(--muted);font-variant-numeric:tabular-nums;
+  letter-spacing:.03em;
+}
+.rules .rule strong{font-size:.94rem;display:block;margin-bottom:3px}
+
+/* ---------- glosario de términos ---------- */
+.term{
+  border-bottom:1px dashed color-mix(in srgb,var(--dark) 55%,transparent);
+  padding-bottom:1px;
+}
+.term sup{
+  font-family:"IBM Plex Mono",monospace;font-size:.62em;font-weight:600;
+  color:var(--dark);margin-left:2px;vertical-align:super;line-height:0;
+}
+.gloss{margin-top:26px;display:grid;gap:0}
+.gloss .gi{
+  display:grid;grid-template-columns:26px 1fr;gap:0 14px;
+  padding:17px 0;border-bottom:1px solid var(--line);align-items:start;
+}
+.gloss .gi:last-child{border-bottom:0}
+.gloss .gn{
+  font-family:"IBM Plex Mono",monospace;font-size:.78rem;font-weight:600;
+  color:var(--dark);padding-top:2px;font-variant-numeric:tabular-nums;
+}
+.gloss .gb{display:flex;flex-direction:column;gap:7px;min-width:0}
+.gloss .gt{font-weight:600;font-size:.98rem}
+.gloss .gd{font-size:.9rem;color:var(--ink-2);max-width:74ch}
+.gloss .gd b{color:var(--ink)}
+.gloss .gw{
+  font-size:.84rem;color:var(--muted);border-left:2px solid var(--line-strong);
+  padding-left:11px;max-width:74ch;
+}
+.gloss .gw b{color:var(--check);font-weight:600}
+.shape{
+  margin-top:26px;padding:22px 26px;border-radius:8px;background:var(--surface-2);
+  border:1px solid var(--line);
+}
+.shape .eyebrow{color:var(--muted)}
+.shape .quote{
+  font-family:"IBM Plex Serif",serif;font-style:italic;font-size:1.02rem;
+  color:var(--ink);margin-top:10px;max-width:64ch;line-height:1.5;
+}
+.shape p.after{font-size:.89rem;color:var(--ink-2);margin-top:12px;max-width:74ch}
+
+/* ---------- seam / division ---------- */
+.seam{
+  margin-top:24px;padding:22px 26px;border-radius:8px;
+  background:var(--surface);border:1px solid var(--line);
+  border-left:3px solid var(--check);box-shadow:var(--shadow);
+}
+.seam .eyebrow{color:var(--check)}
+.seam h4{margin:8px 0 8px}
+.seam p{font-size:.92rem;color:var(--ink-2);max-width:72ch}
+.seam .contract{
+  font-family:"IBM Plex Mono",monospace;font-size:.83rem;
+  background:var(--surface-2);border:1px solid var(--line);border-radius:6px;
+  padding:12px 14px;margin-top:12px;overflow-x:auto;white-space:pre;color:var(--ink);
+}
+.split{display:grid;gap:14px;margin-top:22px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.split .card{gap:10px}
+.split .card .who{
+  font-family:"IBM Plex Mono",monospace;font-size:.66rem;font-weight:600;
+  letter-spacing:.08em;padding:2px 8px;border-radius:3px;align-self:flex-start;
+}
+.split .card.a{border-left:3px solid var(--bright)}
+.split .card.a .who{background:var(--bright-soft);color:var(--bright)}
+.split .card.b{border-left:3px solid var(--dark)}
+.split .card.b .who{background:var(--dark-soft);color:var(--dark)}
+.split .card ul{margin:0;padding-left:16px;display:grid;gap:5px}
+.split .card li{font-size:.88rem;color:var(--ink-2)}
+.split .card .cost{
+  font-size:.82rem;color:var(--muted);border-top:1px solid var(--line);
+  padding-top:9px;margin-top:auto;
+}
+.split .card .cost b{color:var(--ink)}
+.rules{margin-top:22px;display:grid;gap:0}
+.rules .rule{display:grid;grid-template-columns:22px 1fr;gap:0 12px;padding:12px 0;border-bottom:1px solid var(--line);align-items:start}
+.rules .rule:last-child{border-bottom:0}
+.rules .rule .mk{font-family:"IBM Plex Mono",monospace;font-size:.8rem;color:var(--check);padding-top:1px}
+.rules .rule p{font-size:.89rem;color:var(--ink-2);max-width:76ch}
+.rules .rule p b{color:var(--ink)}
+
+.split .card .note{font-size:.86rem;color:var(--ink-2)}
+.split .card .note b{color:var(--ink);font-weight:600}
+.split .card .eyebrow{margin-top:2px}
+.seam .rules{margin-top:12px}
+
+.cut{
+  margin-top:22px;padding:18px 22px;border-radius:8px;border:1px dashed var(--line-strong);
+}
+.cut h4{margin-bottom:8px}
+.cut p{font-size:.88rem;color:var(--ink-2);max-width:76ch}
+.cut ul{margin:8px 0 0;padding-left:18px;display:grid;gap:5px}
+.cut li{font-size:.88rem;color:var(--ink-2)}
+.cut li b{color:var(--ink)}
+.slides{counter-reset:sl;margin-top:14px;display:grid;gap:0}
+.slides .rule .mk{color:var(--muted)}
+
+/* ---------- table ---------- */
+.tablewrap{overflow-x:auto;margin-top:22px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:.86rem}
+th,td{text-align:left;padding:12px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+th{
+  font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--surface-2);
+}
+tr:last-child td{border-bottom:0}
+td code{font-family:"IBM Plex Mono",monospace;font-size:.8rem;background:var(--surface-2);padding:1px 5px;border-radius:3px}
+td a{color:var(--dark)}
+
+/* ---------- risks ---------- */
+.risk{
+  display:grid;grid-template-columns:1fr;gap:8px;padding:18px 0;
+  border-bottom:1px solid var(--line);
+}
+.risk:last-child{border-bottom:0}
+.risk .r-h{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.risk .r-h strong{font-size:.97rem}
+.risk .sev{
+  font-family:"IBM Plex Mono",monospace;font-size:.63rem;letter-spacing:.07em;
+  text-transform:uppercase;padding:2px 7px;border-radius:3px;font-weight:600;
+  background:color-mix(in srgb,var(--warn) 14%,transparent);color:var(--warn);
+  border:1px solid color-mix(in srgb,var(--warn) 30%,transparent);
+}
+.risk .sev.med{background:var(--bright-soft);color:var(--bright);border-color:color-mix(in srgb,var(--bright) 30%,transparent)}
+.risk p{font-size:.89rem;color:var(--ink-2);max-width:76ch}
+.risk .fix{font-size:.86rem;color:var(--ink-2);max-width:76ch}
+.risk .fix b{color:var(--check);font-weight:600}
+
+/* ---------- progress bar ---------- */
+.progbar{
+  position:sticky;bottom:0;z-index:30;margin:0 -24px;
+  background:color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter:blur(10px);border-top:1px solid var(--line);
+  padding:11px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+}
+.progbar .track{flex:1;min-width:120px;height:5px;background:var(--surface-2);border-radius:3px;overflow:hidden}
+.progbar .fill{height:100%;background:var(--check);width:0;transition:width .3s ease}
+.progbar .lab{font-family:"IBM Plex Mono",monospace;font-size:.74rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.progbar button{
+  font-family:"IBM Plex Mono",monospace;font-size:.7rem;color:var(--muted);
+  background:transparent;border:1px solid var(--line-strong);border-radius:5px;
+  padding:4px 10px;cursor:pointer;
+}
+.progbar button:hover{color:var(--ink);border-color:var(--ink)}
+
+footer{margin-top:72px;padding-top:26px;border-top:1px solid var(--line);color:var(--muted);font-size:.83rem}
+footer p{max-width:70ch}
+footer a{color:var(--dark)}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:640px){
+  .meta-row div{border-right:0;padding-right:0;margin-right:0;width:50%}
+  header.hero{padding:36px 0 28px}
+}
+</style>
+</head>
+<body>
+
+
+<nav class="top">
+  <div class="inner">
+    <span class="brand">N_eq</span>
+    <a href="#reparto">Quién hace qué</a>
+    <a href="#supervision">Supervisar al agente</a>
+    <a href="#reunion">Reunión cero</a>
+    <a href="#pregunta">La pregunta</a>
+    <a href="#lectura">Lectura</a>
+    <a href="#nolectura">Qué no leer</a>
+    <a href="#pizarron">El pizarrón</a>
+    <a href="#plan">Plan 10 días</a>
+    <a href="#division">Costura y reglas</a>
+    <a href="#datos">Datos</a>
+    <a href="#riesgos">Dónde se rompe</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<header class="hero">
+  <div class="eyebrow">Proyecto final · Investigación asistida por agentes · Ondas gravitacionales</div>
+  <h1>Sirenas estándar en diez días</h1>
+  <p class="lede">Recorrido de lectura, reparto y plan de trabajo para llegar a <span class="eq">N<sub>dark</sub><sup>eq</sup></span> en diez días a tiempo parcial, delegando la mayor parte de la implementación en agentes y supervisándolos con controles de respuesta conocida. Para un equipo de dos: uno viene de relatividad general y cosmología, el otro de astrofísica y manejo de datos. Ninguno de los dos hace GW astronomy.</p>
+  <div class="meta-row">
+    <div><b>10</b><span>días a tiempo parcial (~3–4 h/día c/u)</span></div>
+    <div><b>2</b><span>perfiles: modelo y datos</span></div>
+    <div><b>~8 / ~6 h</b><span>de lectura, Modelo / Datos</span></div>
+    <div><b>5</b><span>derivaciones completas, 4 notas cortas</span></div>
+    <div><b>10–15'</b><span>de presentación oral: qué hicimos y hasta dónde llegamos</span></div>
+  </div>
+</header>
+
+<section id="reparto">
+  <div class="sec-head"><span class="num">01</span><h2>Quién hace qué</h2></div>
+  <p class="sec-sub">El enunciado propone cortar por tipo de sirena: un integrante la brillante y los datos reales, el otro las oscuras y las simulaciones. Con los perfiles de este equipo ese corte queda mal, porque mete en el mismo carril la física de la señal y la pelea con archivos de datos reales. El reparto de esta página corta por otro lado: <b>uno es dueño del modelo, el otro es dueño de los datos</b>.</p>
+  <p class="sec-sub">La costura entre los dos no cambia: para el resto del pipeline, un evento es un array <span class="eq">L<sub>j</sub>(H<sub>0</sub>)</span> sobre una grilla compartida. Modelo decide cómo se calcula ese array; Datos le da los insumos —muestras reales, catálogos sintéticos, la regla de detección— y corre todo. Cada uno trabaja en su computadora, con su propio agente, sobre el mismo repositorio.</p>
+
+  <div class="split">
+    <div class="card b">
+      <span class="who">Modelo</span>
+      <h4>Para quien viene de relatividad general, cosmología y cursos de GW</h4>
+      <div class="eyebrow">Es suyo</div>
+      <ul>
+        <li>Inicializar el repositorio en GitHub e invitar al compañero</li>
+        <li>El código compartido: grilla y prior de <i>H</i><sub>0</sub>, modelo de amplitud <span class="eq">𝓛<sub>GW</sub>(D<sub>L</sub>, ι)</span>, métricas</li>
+        <li>La likelihood brillante sintética y la oscura como mezcla, con el límite <span class="eq">N<sub>gal</sub>=1</span></li>
+        <li>La combinación de eventos y la predicción analítica de <span class="eq">N<sub>eq</sub></span></li>
+        <li>El diseño del barrido reducido y su lectura contra la predicción</li>
+      </ul>
+      <p class="note"><b>Derivaciones:</b> completas la 6, 7 y 9; notas cortas la 1, 2 y 3. La 4, en conjunto.</p>
+      <p class="note"><b>Por qué:</b> es la parte que se defiende en el pizarrón, y arranca de conceptos que ya vio en los cursos.</p>
+      <p class="note"><b>En la presentación:</b> la pregunta, el método y qué significa el resultado de <span class="eq">N<sub>eq</sub></span>.</p>
+    </div>
+    <div class="card a">
+      <span class="who">Datos</span>
+      <h4>Para quien viene de astrofísica y manejo de datos</h4>
+      <div class="eyebrow">Es suyo</div>
+      <ul>
+        <li>GW170817 real de punta a punta: descarga, procedencia, priors de parameter estimation, reweighting y comparación con la curva publicada</li>
+        <li>La velocidad peculiar de NGC 4993, copiando el tratamiento del paper</li>
+        <li>El generador de catálogos sintéticos (uniforme) y la regla de detección</li>
+        <li>Correr el barrido, la configuración congelada y la reproducción desde un entorno limpio</li>
+      </ul>
+      <p class="note"><b>Derivaciones:</b> completa la 5; nota corta la 8. La 4, en conjunto.</p>
+      <p class="note"><b>Por qué:</b> lo más frágil del proyecto es el manejo de datos reales y de sus convenciones, y eso sale mucho más rápido con práctica. Los efectos de selección son el sesgo de Malmquist con otro nombre.</p>
+      <p class="note"><b>En la presentación:</b> los datos, la validación con GW170817 y los controles.</p>
+    </div>
+  </div>
+
+  <div class="seam" style="border-left-color:var(--warn);margin-top:22px">
+    <div class="eyebrow" style="color:var(--warn)">El punto débil de Modelo</div>
+    <h4>Conoce los conceptos, pero nunca armó una likelihood</h4>
+    <p>Hizo cursos de relatividad, cosmología y GW, pero nunca construyó una likelihood desde cero ni la validó contra un resultado conocido. Con la implementación delegada, el riesgo no es no poder escribirla: es no poder darse cuenta de que el agente la escribió mal. Por eso su primera pieza se hace así:</p>
+    <div class="rules">
+      <div class="rule"><span class="mk">01</span><p><b>La respuesta la escribe él; el código, el agente.</b> Primero deriva en papel el toy gaussiano de la derivación 4 y anota el resultado cerrado. Después el agente lo implementa, con un test contra esa fórmula.</p></div>
+      <div class="rule"><span class="mk">02</span><p><b>Esa pieza se lee línea por línea.</b> Es corta y es la que convierte los conceptos del curso en algo que sabe hacer. Todas las likelihoods que vienen después son variaciones de ésta.</p></div>
+      <div class="rule"><span class="mk">03</span><p><b>El test sintético del reweighting de Datos lo especifica él.</b> Es inferencia pura aplicada a un problema ajeno: la mejor práctica para lo que le falta, y un control independiente de la parte más riesgosa.</p></div>
+    </div>
+  </div>
+
+  <div class="seam" style="border-left-color:var(--bright);margin-top:22px">
+    <div class="eyebrow" style="color:var(--bright)">El punto débil de Datos</div>
+    <h4>Maneja archivos, pero quizás no la física de la señal</h4>
+    <p>Para reweightear bien las muestras hay que entender qué son <span class="eq">D<sub>L</sub></span> e <span class="eq">ι</span>, por qué están degeneradas y qué significa el prior con el que se generaron. Lo cubren la reunión cero y un apunte corto en su guía de carril. Y la pieza crítica de su lado —el reweighting— tiene su propio test con respuesta conocida, escrito desde el otro carril.</p>
+  </div>
+
+  <div class="owner-key">
+    <span><b>En toda la página:</b></span>
+    <span><span class="chip wb">Modelo</span> likelihoods, mezcla, métricas</span>
+    <span><span class="chip wa">Datos</span> datos reales, catálogos, selección</span>
+    <span><span class="chip wab">Ambos</span> los dos</span>
+  </div>
+</section>
+
+<section id="supervision">
+  <div class="sec-head"><span class="num">02</span><h2>Supervisar al agente sin ser expertos</h2></div>
+  <p class="sec-sub">La decisión es delegar la mayor parte de la implementación. Eso funciona si se cumple una condición: <b>el agente escribe el código, pero la respuesta esperada la ponen ustedes</b>. En un área que no dominan, no pueden supervisar por experiencia —“esto se ve raro”—, así que supervisan con controles cuya respuesta conocen de antemano. Éste es el método de trabajo de todo el proyecto, y también es la mitad de lo que van a contar en la presentación.</p>
+
+  <h3 style="margin-top:30px">El protocolo</h3>
+  <div class="rules">
+    <div class="rule"><span class="mk">01</span><p><b>Sin respuesta esperada no hay pedido.</b> Antes de pedirle al agente una pieza, escriban qué debería dar: un número, una forma, un límite, un orden de magnitud. Va en el pedido y queda guardada en el repo.</p></div>
+    <div class="rule"><span class="mk">02</span><p><b>Todo número viene con un test contra algo conocido.</b> Una fórmula analítica, un caso límite, la curva publicada o la predicción registrada. Un número que solo “parece razonable” no se acepta.</p></div>
+    <div class="rule"><span class="mk">03</span><p><b>Las piezas críticas se leen línea por línea; el resto, por resultado.</b> Críticas: la grilla y el prior de <i>H</i><sub>0</sub>, <span class="eq">𝓛<sub>GW</sub></span>, la mezcla oscura, las métricas, el reweighting y la regla de detección. Gráficos, lectura de archivos, configuraciones y build se revisan mirando qué producen.</p></div>
+    <div class="rule"><span class="mk">04</span><p><b>Cada pieza crítica se explica antes de mergear.</b> El agente la resume en cinco líneas con la ecuación que implementa. Si no coincide con la derivación, o si no se entiende la explicación, no entra.</p></div>
+    <div class="rule"><span class="mk">05</span><p><b>Nunca “arreglá el test”.</b> Si un test falla, primero se decide quién está mal: el código, el test o la respuesta esperada. Un agente al que se le pide que un test pase va a encontrar la forma de que pase.</p></div>
+    <div class="rule"><span class="mk">06</span><p><b>Registro de supervisión.</b> Cada error del agente que detecten va a <code>validacion/registro_supervision.md</code>: qué hizo, cómo lo notaron (un control, una lectura, intuición) y qué tan grave era. Tres líneas por entrada, anotadas en el momento.</p></div>
+  </div>
+
+  <div class="grid g2" style="margin-top:26px">
+    <div class="card" style="border-left:3px solid var(--check)">
+      <div class="eyebrow" style="color:var(--check)">Lo que los controles atrapan</div>
+      <p>Normalizaciones y factores mal puestos, signos, límites mal implementados, un <i>H</i><sub>0</sub> inyectado que no se recupera, un reweighting que no devuelve la likelihood conocida, dos implementaciones distintas de lo mismo.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--warn)">
+      <div class="eyebrow" style="color:var(--warn)">Lo que no atrapan</div>
+      <p>Una convención de prior mal leída que afecta igual a los dos lados, el tratamiento de la velocidad peculiar, un supuesto físico equivocado que el agente y ustedes comparten. Para eso la única defensa es leer el paper —los Methods de Abbott 2017— y declararlo en las limitaciones.</p>
+    </div>
+  </div>
+
+  <h3 style="margin-top:38px">La presentación cuenta dos historias</h3>
+  <p class="sec-sub">Diez a quince minutos sobre qué hicieron y hasta dónde llegaron. En un curso sobre agentes en investigación, cómo los supervisaron fuera de su área vale tanto como el número final, y sale solo si el registro se lleva desde el día 1.</p>
+  <div class="rules slides">
+    <div class="rule"><span class="mk">1</span><p><b>La pregunta</b> y por qué el redshift es lo que la señal no da.</p></div>
+    <div class="rule"><span class="mk">2</span><p><b>El método:</b> bright contra dark en una ecuación, y la definición de “misma información”.</p></div>
+    <div class="rule"><span class="mk">3</span><p><b>Validación:</b> GW170817 contra la curva publicada.</p></div>
+    <div class="rule"><span class="mk">4</span><p><b>Resultado:</b> <span class="eq">N<sub>eq</sub></span> contra la predicción, hasta donde hayan llegado.</p></div>
+    <div class="rule"><span class="mk">5</span><p><b>Supervisar al agente sin ser expertos:</b> qué errores atraparon los controles, cuáles no, y cuánto estudio hizo falta para poder corregirlo.</p></div>
+    <div class="rule"><span class="mk">6</span><p><b>Limitaciones</b> y lo que quedó como trabajo futuro.</p></div>
+  </div>
+</section>
+
+<section id="reunion">
+  <div class="sec-head"><span class="num">03</span><h2>Reunión cero</h2></div>
+  <p class="sec-sub">Antes de repartir nada hay una reunión, y antes de esa reunión hay unas tres o cuatro horas de lectura. Acá sí <b>los dos leen exactamente lo mismo</b>: es la única excepción al reparto de toda esta página, porque lo que sale de la reunión es una decisión compartida y no el entregable de nadie. En la misma reunión, media hora cada uno para contar lo que leyó reemplaza al seminario cruzado del plan largo.</p>
+
+  <h3 style="margin-top:30px">Leer antes · ≈4 horas</h3>
+  <div class="rules wide">
+    <div class="rule"><span class="mk">30 min</span><p><strong>Schutz 1986</strong>Tres páginas. La idea completa, incluida la versión sin contraparte electromagnética. Es la forma más barata que existe de tener el concepto entero en la cabeza.</p></div>
+    <div class="rule"><span class="mk">≈1 h</span><p><strong>Abbott et al. 2017 — solo el cuerpo, sin Methods</strong>Qué es una medición de sirena brillante de punta a punta, con un número real. Los Methods, donde están los priors, son para Datos el D3: ahora sobran.</p></div>
+    <div class="rule"><span class="mk">≈1 h</span><p><strong>Fishbach et al. 2019 — introducción y la ecuación de la likelihood</strong>Lo que vuelve concreta la pregunta: mismo evento, host borrado, cuánto se degrada. Si solo leyeran una cosa, es ésta.</p></div>
+    <div class="rule"><span class="mk">≈1,5 h</span><p><strong>Thrane &amp; Talbot — secciones de fundamentos</strong>Nada de jerárquico todavía. Solo likelihood contra prior contra posterior, y qué es una muestra posterior. Es el idioma en el que está escrito todo lo demás; sin eso la reunión se va en aclarar términos.</p></div>
+  </div>
+  <p class="sec-sub" style="margin-top:16px">Y nada más. El resto de la bibliografía ya está repartida por perfil, y conviene arrancarla recién con el reparto confirmado.</p>
+
+  <h3 style="margin-top:38px">La reunión sale con seis cosas decididas</h3>
+  <p class="sec-sub">No es planificar los diez días —eso ya está escrito más abajo— sino fijar lo que después no se discute más. En el plan, las lecturas van el D1 y la reunión el D2.</p>
+  <div class="rules">
+    <div class="rule"><span class="mk">01</span><p><strong>Qué es observable y qué es parámetro</strong>En una línea: se mide una amplitud, se infiere <i>H</i><sub>0</sub>, y distancia, inclinación y velocidad peculiar son molestias a marginalizar. Suena trivial y es lo que ordena todo el resto.</p></div>
+    <div class="rule"><span class="mk">02</span><p><strong>La diferencia bright/dark en una sola ecuación</strong>El host único contra la suma sobre galaxias candidatas, escrita en el pizarrón. Si no les sale ahí, todavía no entendieron la pregunta — y conviene saberlo el primer día y no el día doce.</p></div>
+    <div class="rule"><span class="mk">03</span><p><strong>Contra qué se valida</strong>La curva publicada del posterior de <i>H</i><sub>0</sub> de GW170817. La tolerancia se decide después; que ése es el blanco, se acuerda ahora.</p></div>
+    <div class="rule"><span class="mk">04</span><p><strong>Qué significa “la misma información”</strong>Elegir las dos métricas y entender por qué son dos y no una. La respuesta está en que el posterior de una sirena oscura puede ser multimodal.</p></div>
+    <div class="rule"><span class="mk">05</span><p><strong>Confirmar el reparto y ponerle dueño a cada pieza</strong>El reparto de «Quién hace qué» es una propuesta: confírmenlo o ajústenlo, pero salgan con un único dueño para cada una de las cinco convenciones compartidas y para cada derivación.</p></div>
+    <div class="rule"><span class="mk">06</span><p><strong>Que la sirena brillante de referencia sea sintética</strong>La decisión estructural, y la más difícil de revertir después: determina si el resultado principal queda colgado de los datos reales durante todo el proyecto. Está desarrollada en «Costura y reglas».</p></div>
+  </div>
+  <p class="sec-sub" style="margin-top:18px">Un detalle práctico que rinde: que cada uno llegue con una <b>lista escrita de lo que no entendió</b> de las cuatro lecturas. Esas dos listas suelen ser mejor insumo que cualquier agenda, y las que aparecen en las dos listas se resuelven en la misma reunión.</p>
+</section>
+
+<section id="pregunta">
+  <div class="sec-head"><span class="num">04</span><h2>La pregunta, término por término</h2></div>
+  <div class="question">
+    <div class="eyebrow tag">Lo que el proyecto responde</div>
+    <p>En un <span class="term">modelo controlado<sup>1</sup></span> de <span class="term">eventos tipo GW170817<sup>2</sup></span>, ¿<span class="term">cuántas<sup>3</sup></span> <span class="term">sirenas oscuras<sup>4</sup></span> hacen falta para aportar <span class="term">la misma información<sup>5</sup></span> sobre <span class="term">la constante de Hubble<sup>6</sup></span> que una <span class="term">sirena brillante<sup>4</sup></span>, y cómo depende esa equivalencia de <span class="term">la incertidumbre en distancia<sup>7</sup></span> y del <span class="term">número de galaxias anfitrionas candidatas<sup>8</sup></span>?</p>
+  </div>
+
+  <p class="sec-sub">La pregunta está bien planteada, pero casi todos sus términos son técnicos y varios están sin definir <i>a propósito</i>: definirlos es parte del trabajo. Ocho de ellos hay que poder desempacar en voz alta antes de escribir una línea de código.</p>
+
+  <div class="gloss">
+    <div class="gi"><span class="gn">1</span><div class="gb">
+      <span class="gt">“Modelo controlado”</span>
+      <p class="gd">Que ustedes escriben el proceso generativo entero y por lo tanto <b>conocen el <i>H</i><sub>0</sub> verdadero</b>. Los eventos se simulan a partir de un valor inyectado, y el éxito se mide por si la inferencia lo recupera. No es un análisis de datos: es un experimento numérico con verdad conocida.</p>
+      <p class="gw"><b>Consecuencia:</b> el resultado vale dentro del modelo declarado y no es una medición de <i>H</i><sub>0</sub>. Esa frase va en el abstract, no en las limitaciones al final.</p>
+    </div></div>
+
+    <div class="gi"><span class="gn">2</span><div class="gb">
+      <span class="gt">“Eventos tipo GW170817”</span>
+      <p class="gd">No es GW170817. Es una <b>familia de eventos sintéticos</b> que heredan del evento real solo lo que importa: una fusión de estrellas de neutrones a unas decenas de megaparsecs, con una incertidumbre relativa en distancia comparable y con la inclinación desconocida bajo prior isótropo.</p>
+      <p class="gw"><b>Hay que decidir:</b> qué parámetros exactamente se heredan y cuáles se barren. Todo lo que no esté en esa lista queda fijo, y eso es parte del dominio de validez.</p>
+    </div></div>
+
+    <div class="gi"><span class="gn">3</span><div class="gb">
+      <span class="gt">“Cuántas hacen falta”</span>
+      <p class="gd"><span class="eq">N<sub>eq</sub></span> es el <b>menor número de sirenas oscuras</b> para el cual la información sobre <i>H</i><sub>0</sub> alcanza la de una brillante. Como es un cruce entre dos curvas y el número de eventos es entero, la definición necesita una regla explícita: interpolar, o tomar el primer <i>N</i> que supera el umbral.</p>
+      <p class="gw"><b>Y la sutileza que lo define de verdad:</b> una sola realización no alcanza. <span class="eq">N<sub>eq</sub></span> se define sobre la <b>mediana</b> de muchas realizaciones sintéticas, y hay que reportar la dispersión — dos catálogos distintos pueden dar valores muy diferentes.</p>
+    </div></div>
+
+    <div class="gi"><span class="gn">4</span><div class="gb">
+      <span class="gt">“Sirena oscura” y “sirena brillante”</span>
+      <p class="gd">Toda sirena da la distancia <span class="eq">D<sub>L</sub></span> directamente de la amplitud de la señal, sin escalera de distancias. La diferencia está en el <b>redshift</b>, que la señal no da. En una <b>brillante</b> hay contraparte electromagnética, se identifica la galaxia anfitriona y hay un redshift único (más su velocidad peculiar). En una <b>oscura</b> no hay contraparte: hay un conjunto de galaxias compatibles con la localización y la distancia, y la likelihood es una <b>mezcla</b> sobre todas ellas.</p>
+      <p class="gw"><b>Ésta es la ecuación que tienen que poder escribir en la reunión cero.</b> Es toda la diferencia entre los dos casos, y es el punto 02 de la agenda.</p>
+    </div></div>
+
+    <div class="gi"><span class="gn">5</span><div class="gb">
+      <span class="gt">“La misma información sobre <i>H</i><sub>0</sub>”</span>
+      <p class="gd">El término más importante de la pregunta y el único que el enunciado deja deliberadamente abierto: definirlo <b>es</b> parte del proyecto. Información significa cuánto se redujo la incertidumbre del posterior respecto del prior, y se operacionaliza de dos maneras: el <b>ancho de un intervalo creíble</b> fijo, y la <b>divergencia de Kullback–Leibler</b> entre posterior y prior.</p>
+      <p class="gw"><b>Por qué dos y no una:</b> el posterior de una sirena oscura puede tener picos separados, uno por grupo de galaxias candidatas. Ahí un intervalo del 68% puede salir angosto y sugerir mucha información donde en realidad hay ambigüedad entre dos valores de <i>H</i><sub>0</sub>. La KL no se deja engañar por eso.</p>
+    </div></div>
+
+    <div class="gi"><span class="gn">6</span><div class="gb">
+      <span class="gt">“La constante de Hubble”, acá y solo acá</span>
+      <p class="gd">Es <i>H</i><sub>0</sub> en el régimen de <b>bajo redshift</b>, entrando por <span class="eq">v = H<sub>0</sub>D<sub>L</sub> + v<sub>pec</sub></span>. No se infiere <span class="eq">Ω<sub>m</sub></span>, ni ecuación de estado, ni nada más: es un único parámetro sobre una grilla unidimensional, sin MCMC.</p>
+      <p class="gw"><b>Hay que acotar:</b> a qué redshift el término siguiente de la expansión se vuelve comparable a la incertidumbre en distancia. Ese número es una de las fronteras del dominio de validez, y es la derivación 3.</p>
+    </div></div>
+
+    <div class="gi"><span class="gn">7</span><div class="gb">
+      <span class="gt">“La incertidumbre en distancia”</span>
+      <p class="gd"><span class="eq">σ<sub>D</sub>/D<sub>L</sub></span>, <b>relativa</b>, no absoluta. Nace del ruido en la amplitud medida y, sobre todo, de la degeneración con la inclinación: una fuente vista de frente y otra de costado producen amplitudes distintas a la misma distancia, y eso ensancha el posterior de <span class="eq">D<sub>L</sub></span> mucho más que el ruido solo.</p>
+      <p class="gw"><b>Qué representa en el barrido:</b> es el proxy de “qué tan buena es la red de detectores”. Barrerlo es preguntar cómo cambia la respuesta con instrumentos mejores o peores, sin tener que modelar ningún detector.</p>
+    </div></div>
+
+    <div class="gi"><span class="gn">8</span><div class="gb">
+      <span class="gt">“Número de galaxias anfitrionas candidatas”</span>
+      <p class="gd"><span class="eq">N<sub>gal</sub></span>: cuántas galaxias son compatibles con la localización y la distancia del evento. Físicamente es el volumen de localización multiplicado por la densidad de galaxias, pero en este proyecto <b>es un parámetro de control</b> que se fija a mano, no algo que se calcula de un catálogo real.</p>
+      <p class="gw"><b>Qué representa:</b> el proxy de “qué tan bien se localiza el evento”. Y su distribución en redshift importa tanto como su número: hosts agrupados en una estructura no equivalen a hosts repartidos uniformemente, y ése es el experimento 7.</p>
+    </div></div>
+  </div>
+
+  <div class="shape">
+    <div class="eyebrow">La forma que va a tener la respuesta</div>
+    <p class="quote">“Para eventos con una incertidumbre relativa en distancia de tanto y tantas galaxias candidatas, la mediana de <span class="eq">N<sub>eq</sub></span> es tal número, con tal dispersión entre realizaciones.”</p>
+    <p class="after">Condicionada al modelo, con mediana y dispersión, y con las dos métricas de acuerdo entre sí. Si en algún momento la respuesta empieza a sonar como “hacen falta <i>N</i> sirenas oscuras”, a secas, algo se perdió en el camino. <b>Lo que la pregunta no pregunta:</b> no es una medición nueva de <i>H</i><sub>0</sub>, no es una predicción para O5, y no involucra la completitud de catálogos reales de galaxias.</p>
+  </div>
+
+  <p class="sec-sub" style="margin-top:34px">La física de GW que hace falta acá es sorprendentemente poca, y no es la que uno esperaría. No hay que saber matched filtering ni waveform modelling. Hay que entender <b>tres</b> cosas con precisión: de dónde sale <span class="eq">D<sub>L</sub></span> de la amplitud, por qué está degenerada con la inclinación, y qué es exactamente una muestra posterior publicada. Lo demás del proyecto es inferencia bayesiana, que es donde conviene invertir el tiempo de lectura.</p>
+
+  <div class="grid g3">
+    <div class="card">
+      <div class="eyebrow">Lo fácil para vos</div>
+      <h4>Distancia, redshift, <i>H</i><sub>0</sub></h4>
+      <p>La relación <span class="eq">v = H<sub>0</sub>D<sub>L</sub></span> a bajo <i>z</i>, priors cosmológicos, marginalización sobre una grilla. Nada nuevo para quien viene de cosmología.</p>
+    </div>
+    <div class="card">
+      <div class="eyebrow">Lo genuinamente nuevo</div>
+      <h4>Amplitud, inclinación, degeneración</h4>
+      <p>Por qué la amplitud de un binario da <span class="eq">A(ι)/D<sub>L</sub></span> y no <span class="eq">1/D<sub>L</sub></span>, y por qué eso convierte una medición limpia de distancia en una banana en el plano <span class="eq">(D<sub>L</sub>, cos ι)</span>.</p>
+    </div>
+    <div class="card">
+      <div class="eyebrow">Lo que rompe el proyecto</div>
+      <h4>Priors, reweighting, selección</h4>
+      <p>Las muestras públicas son un <i>posterior</i>, no una likelihood. Y los eventos simulados están condicionados a haber sido detectados. Estos dos puntos son el 80% de los bugs posibles.</p>
+    </div>
+  </div>
+</section>
+
+<section id="lectura">
+  <div class="sec-head"><span class="num">05</span><h2>Ruta de lectura</h2></div>
+  <p class="sec-sub">Cinco niveles, en orden de dependencia. <b>En el plan de diez días solo se lee lo marcado como Núcleo</b>, y ya está repartido: Modelo lee ~8 h, Datos ~6 h, más lo que leen juntos para la reunión cero. <b>Apoyo</b> se abre solo si una tarea concreta lo pide —típicamente, cuando el agente propone algo y no saben si está bien—. <b>Consulta</b> queda para la introducción y la discusión de la presentación, o para después. Los tildes se guardan en este navegador.</p>
+  <p class="sec-sub">El criterio del recorte es simple: con poco tiempo y mucho trabajo delegado, lo que hay que leer es lo que permite <b>escribir la respuesta esperada</b> de cada pieza crítica (ver «Supervisar al agente»). Lo demás lo puede resumir el agente cuando haga falta.</p>
+  <div class="owner-key">
+    <span><b>Reparto:</b></span>
+    <span><span class="chip wb">Modelo</span> likelihoods, mezcla, métricas, predicción</span>
+    <span><span class="chip wa">Datos</span> archivos reales, priors, selección, catálogos</span>
+    <span><span class="chip wab">Ambos</span> los dos, sin excepción</span>
+  </div>
+
+  <div class="tier">
+    <div class="tier-head">
+      <span class="lvl">N0</span>
+      <h3>Inferencia bayesiana con observaciones ruidosas</h3>
+      <span class="budget">~2,5 h · núcleo, repartido</span>
+    </div>
+    <p class="tier-why">Este nivel va primero aunque no hable de sirenas. Todo el proyecto es una likelihood construida a mano, y las dos trampas del enunciado —reutilizar muestras posteriores y condicionar a detección— son trampas de inferencia, no de astrofísica.</p>
+
+    <div class="item" data-id="r1">
+      <input type="checkbox" class="tick" aria-label="Leído">
+      <div class="item-body">
+        <div class="item-title"><span class="t">An introduction to Bayesian inference in gravitational-wave astronomy</span><span class="chip wab">Ambos</span><span class="chip core">Núcleo</span></div>
+        <div class="item-ref"><span>Thrane &amp; Talbot 2019, PASA 36, e010</span><a href="https://arxiv.org/abs/1809.02293">arXiv:1809.02293</a><span>≈5 h</span></div>
+        <div class="item-why">La lectura de mayor rendimiento de toda la lista. Fija la notación (<span class="eq">d</span>, <span class="eq">θ</span>, <span class="eq">Λ</span>), explica qué es una muestra posterior, cómo se hace <b>reweighting por cociente de priors</b>, y monta la likelihood jerárquica con efectos de selección. Es literalmente el manual del §4.2 y §4.4 del proyecto.</div>
+        <div class="item-read"><b>Se reparte por secciones.</b> Los dos leen los fundamentos y la notación (≈2,5 h): es el idioma común y no se negocia. <b>Modelo</b> se queda con estimación de parámetros y likelihood jerárquica, y la lee como manual —con lápiz, rehaciendo los ejemplos—, porque es exactamente lo que va a tener que construir. <b>Datos</b> se queda con <i>recycling / reweighting</i> de muestras y <i>selection effects</i>. Cada uno cuenta su parte en la reunión cero.</div>
+      </div>
+    </div>
+
+    <div class="item" data-id="r2">
+      <input type="checkbox" class="tick" aria-label="Leído">
+      <div class="item-body">
+        <div class="item-title"><span class="t">Extracting distribution parameters from multiple uncertain observations with selection biases</span><span class="chip wa">Datos</span><span class="chip sup">Apoyo</span></div>
+        <div class="item-ref"><span>Mandel, Farr &amp; Gair 2019, MNRAS 486, 1086</span><a href="https://arxiv.org/abs/1809.02063">arXiv:1809.02063</a><span>≈1,5 h</span></div>
+        <div class="item-why">La derivación limpia de por qué la likelihood de una población lleva un denominador de detectabilidad. Justifica la frase del proyecto “eventos simulados <b>condicionados a haber sido observados</b>, con una regla generativa explícita”.</div>
+        <div class="item-read">Alcanza con las secciones 2 y 3. El resto es aplicación a masas de binarios y no lo vas a usar.</div>
+      </div>
+    </div>
+
+    <div class="item" data-id="r3">
+      <input type="checkbox" class="tick" aria-label="Leído">
+      <div class="item-body">
+        <div class="item-title"><span class="t">Divergencia KL entre gaussianas: el caso analítico</span><span class="chip wb">Modelo</span><span class="chip sup">Apoyo</span></div>
+        <div class="item-ref"><span>Cualquier texto de teoría de la información (p. ej. MacKay, cap. 2)</span><span>≈1 h</span></div>
+        <div class="item-why">Vas a usar <span class="eq">D<sub>KL</sub>(posterior ‖ prior)</span> como métrica de información. Para gaussiana contra uniforme el resultado es cerrado, y ése es tu <b>test analítico obligatorio</b> del §7. Sin él, no tenés forma de saber si tu integral numérica está bien normalizada.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-head">
+      <span class="lvl">N1</span>
+      <h3>Qué es una sirena estándar</h3>
+      <span class="budget">~0,5 h · solo Schutz</span>
+    </div>
+    <p class="tier-why">Acá se justifica el modelo de amplitud <span class="eq">a<sub>obs</sub> = A(ι)/D<sub>L</sub> + ε</span> del §4.1. No es un juguete arbitrario: es la estructura real de la señal, con todo lo demás marginalizado.</p>
+
+    <div class="item" data-id="r4">
+      <input type="checkbox" class="tick" aria-label="Leído">
+      <div class="item-body">
+        <div class="item-title"><span class="t">Determining the Hubble constant from gravitational wave observations</span><span class="chip wab">Ambos</span><span class="chip core">Núcleo</span></div>
+        <div class="item-ref"><span>Schutz 1986, Nature 323, 310</span><a href="https://ui.adsabs.harvard.edu/abs/1986Natur.323..310S">ADS</a><span>≈0,5 h</span></div>
+        <div class="item-why">Tres páginas. La idea original, incluida la propuesta de usar <b>galaxias candidatas sin contraparte</b> — es decir, el paper fundacional de la sirena oscura, cuarenta años antes de que se llamara así. Va en el primer slide de la presentación.</div>
+      </div>
+    </div>
+
+    <div class="item" data-id="r5">
+      <input type="checkbox" class="tick" aria-label="Leído">
+      <div class="item-body">
+        <div class="item-title"><span class="t">Inspiral de binarias compactas: amplitud y patrón de antena</span><span class="chip wb">Modelo</span><span class="chip ref">Consulta</span></div>
+        <div class="item-ref"><span>Maggiore, <i>Gravitational Waves</i> Vol. 1, §4.1 — o Creighton &amp; Anderson, caps. 3–4</span><span>≈2 h</span></div>
+        <div class="item-why">De dónde sale <span class="eq">h<sub>+</sub> ∝ (1+cos²ι)/2 · 𝓜<sup>5/3</sup>/D<sub>L</sub></span> y <span class="eq">h<sub>×</sub> ∝ cos ι · …</span>, y por qué la <b>fase</b> da la masa chirp mientras la <b>amplitud</b> da distancia e inclinación mezcladas. Sin esto, el <span class="eq">A(ι)</span> del §4.1 es un postulado y no lo vas a poder defender en la exposición.</div>
+        <div class="item-read">En el plan de diez días, <span class="eq">A(ι)</span> se toma como dato y la derivación 1 queda como nota corta. Abrir esto solo si en la reunión cero no queda claro de dónde sale la degeneración.</div>
+      </div>
+    </div>
+
+    <div class="item" data-id="r6">
+      <input type="checkbox" class="tick" aria-label="Leído">
+      <div class="item-body">
+        <div class="item-title"><span class="t">Constraining the inclinations of binary mergers from gravitational-wave observations</span><span class="chip wb">Modelo</span><span class="chip sup">Apoyo</span></div>
+        <div class="item-ref"><span>Usman, Mills &amp; Fairhurst 2019, ApJ 877, 82</span><a href="https://arxiv.org/abs/1809.10727">arXiv:1809.10727</a><span>≈1,5 h</span></div>
+        <div class="item-why">La anatomía de la degeneración distancia–inclinación: por qué con un solo detector es total, cómo la rompe parcialmente la red, y cuánta información hay realmente en <span class="eq">cos ι</span>. Es el paper de referencia para tu <b>Experimento 8</b> y para las figuras del plano <span class="eq">(D<sub>L</sub>, cos ι)</span>.</div>
+      </div>
+    </div>
+
+    <div class="item" data-id="r7">
+      <input type="checkbox" class="tick" aria-label="Leído">
+      <div class="item-body">
+        <div class="item-title"><span class="t">Using gravitational-wave standard sirens</span><span class="chip wb">Modelo</span><span class="chip ref">Consulta</span></div>
+        <div class="item-ref"><span>Holz &amp; Hughes 2005, ApJ 629, 15</span><a href="https://arxiv.org/abs/astro-ph/0504616">astro-ph/0504616</a><span>≈0,5 h hojeando</span></div>
+        <div class="item-why">Introdujo el nombre y cuantificó las degradaciones (lente débil, inclinación). Útil para una frase de contexto en la introducción, nada más.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-head">
+      <span class="lvl">N2</span>
+      <h3>GW170817 como sirena brillante</h3>
+      <span class="budget">~2,5 h · Datos</span>
+    </div>
+    <p class="tier-why">Este es el objeto que tenés que reproducir. Leelo con el objetivo explícito de contestar: <i>¿qué prior exacto de distancia e inclinación usaron, y qué hicieron con la velocidad peculiar de NGC 4993?</i></p>
+
+    <div class="item" data-id="r8">
+      <input type="checkbox" class="tick" aria-label="Leído">
+      <div class="item-body">
+        <div class="item-title"><span class="t">A gravitational-wave standard siren measurement of the Hubble constant</span><span class="chip wa">Datos</span><span class="chip core">Núcleo</span></div>
+        <div class="item-ref"><span>LVC + partners 2017, Nature 551, 85</span><a href="https://arxiv.org/abs/1710.05835">arXiv:1710.05835</a><span>≈3 h</span></div>
+        <div class="item-why">El resultado que tu pipeline bright tiene que reproducir. La ecuación de la likelihood cosmológica del paper <b>es</b> tu §4.2. Anotá explícitamente: el prior <span class="eq">p(D<sub>L</sub>) ∝ D<sub>L</sub>²</span>, el prior isótropo en <span class="eq">cos ι</span>, el tratamiento de <span class="eq">v<sub>pec</sub></span>, y el intervalo creíble publicado con su convención.</div>
+        <div class="item-read">Leer el cuerpo y <b>todo</b> el material suplementario/Methods. Ahí están los priors, que es lo único que necesitás con precisión quirúrgica.</div>
+      </div>
+    </div>
+
+    <div class="item" data-id="r9">
+      <input type="checkbox" class="tick" aria-label="Leído">
+      <div class="item-body">
+        <div class="item-title"><span class="t">GW170817: Observation of gravitational waves from a binary neutron star inspiral</span><span class="chip wa">Datos</span><span class="chip sup">Apoyo</span></div>
+        <div class="item-ref"><span>LVC 2017, PRL 119, 161101</span><a href="https://arxiv.org/abs/1710.05832">arXiv:1710.05832</a><span>≈1 h</span></div>
+        <div class="item-why">Solo por la sección de parameter estimation: qué waveform (<code>IMRPhenomPv2NRT</code>), qué priors, qué significa <i>low-spin</i>. Es la ficha técnica del archivo HDF5 que vas a descargar.</div>
+      </div>
+    </div>
+
+    <div class="item" data-id="r10">
+      <input type="checkbox" class="tick" aria-label="Leído">
+      <div class="item-body">
+        <div class="item-title"><span class="t">A Hubble constant measurement from superluminal motion of the jet in GW170817</span><span class="chip wa">Datos</span><span class="chip ref">Consulta</span></div>
+        <div class="item-ref"><span>Hotokezaka et al. 2019, Nat. Astron. 3, 940</span><a href="https://arxiv.org/abs/1806.10596">arXiv:1806.10596</a><span>≈1 h</span></div>
+        <div class="item-why">Muestra cuánto se achica el posterior de <i>H</i><sub>0</sub> cuando la inclinación se restringe desde afuera. Es la validación empírica de tu <b>Experimento 8</b>: te da un punto real con el que comparar tu curva sintética de “información vs. conocimiento de ι”.</div>
+      </div>
+    </div>
+
+    <div class="item" data-id="r11">
+      <input type="checkbox" class="tick" aria-label="Leído">
+      <div class="item-body">
+        <div class="item-title"><span class="t">Multi-messenger observations of a binary neutron star merger</span><span class="chip wa">Datos</span><span class="chip ref">Consulta</span></div>
+        <div class="item-ref"><span>LVC et al. 2017, ApJL 848, L12</span><a href="https://arxiv.org/abs/1710.05833">arXiv:1710.05833</a><span>≈0,5 h hojeando</span></div>
+        <div class="item-why">Cómo se identificó NGC 4993. Una figura para la presentación y la referencia para “el host se conoce”.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-head">
+      <span class="lvl">N3</span>
+      <h3>La sirena oscura: la likelihood como mezcla</h3>
+      <span class="budget">~4,5 h · Modelo</span>
+    </div>
+    <p class="tier-why">El nivel más importante después del N0. Acá está el molde exacto del §4.3, y acá está el paper que hace <i>casi</i> tu experimento 3 con datos reales.</p>
+
+    <div class="item" data-id="r12">
+      <input type="checkbox" class="tick" aria-label="Leído">
+      <div class="item-body">
+        <div class="item-title"><span class="t">A standard siren measurement of <i>H</i><sub>0</sub> from GW170817 without the electromagnetic counterpart</span><span class="chip wb">Modelo</span><span class="chip core">Núcleo</span></div>
+        <div class="item-ref"><span>Fishbach et al. 2019, ApJL 871, L13</span><a href="https://arxiv.org/abs/1807.05667">arXiv:1807.05667</a><span>≈3 h</span></div>
+        <div class="item-why">La mejor relación valor/página de toda la lista, y ya está citado en tu propio enunciado. Toma exactamente el mismo evento, borra el host, y compara. Es tu <b>Experimento 3</b> hecho con datos reales: el número que reporta (cuánto se degrada <i>H</i><sub>0</sub> al perder la contraparte) es tu control de sanidad principal.</div>
+        <div class="item-read">Modelo lo lee completo y reescribe su ecuación de la likelihood con la notación acordada antes de codificar nada; es lo que va a contar en la reunión cero. <b>Datos no lo lee entero</b>: le alcanzan quince minutos sobre cómo tratan el catálogo de galaxias y el resultado numérico, que es el control de sanidad.</div>
+      </div>
+    </div>
+
+    <div class="item" data-id="r13">
+      <input type="checkbox" class="tick" aria-label="Leído">
+      <div class="item-body">
+        <div class="item-title"><span class="t">Inference of cosmological parameters from gravitational waves: applications to second generation interferometers</span><span class="chip wb">Modelo</span><span class="chip ref">Consulta</span></div>
+        <div class="item-ref"><span>Del Pozzo 2012, PRD 86, 043011</span><a href="https://arxiv.org/abs/1108.1317">arXiv:1108.1317</a><span>≈1,5 h</span></div>
+        <div class="item-why">El formalismo original del host estadístico, y el primer estudio de cómo escala la información con el número de eventos. Es el antepasado directo de tu pregunta.</div>
+        <div class="item-read">Sección II (formalismo) con cuidado; los resultados numéricos, en diagonal.</div>
+      </div>
+    </div>
+
+    <div class="item" data-id="r14">
+      <input type="checkbox" class="tick" aria-label="Leído">
+      <div class="item-body">
+        <div class="item-title"><span class="t">A 2 per cent Hubble constant measurement from standard sirens within 5 years</span><span class="chip wb">Modelo</span><span class="chip core">Núcleo</span></div>
+        <div class="item-ref"><span>Chen, Fishbach &amp; Holz 2018, Nature 562, 545</span><a href="https://arxiv.org/abs/1712.06531">arXiv:1712.06531</a><span>≈1,5 h</span></div>
+        <div class="item-why">Es la pregunta de tu proyecto, hecha en la otra dirección: cuántos eventos hacen falta para llegar a una precisión dada, separando bright de dark. De acá sale la <b>predicción analítica</b> que tenés que registrar antes de correr tus barridos: el escaleo tipo <span class="eq">σ<sub>H₀</sub>/H<sub>0</sub> ∝ N<sup>−1/2</sup></span> y cómo se degrada en el caso oscuro.</div>
+      </div>
+    </div>
+
+    <div class="item" data-id="r15">
+      <input type="checkbox" class="tick" aria-label="Leído">
+      <div class="item-body">
+        <div class="item-title"><span class="t">Cosmological inference using gravitational wave standard sirens: a mock data analysis</span><span class="chip wa">Datos</span><span class="chip ref">Consulta</span></div>
+        <div class="item-ref"><span>Gray et al. 2020, PRD 101, 122001 (gwcosmo)</span><a href="https://arxiv.org/abs/1908.06050">arXiv:1908.06050</a><span>≈2 h</span></div>
+        <div class="item-why">El tratamiento cuidadoso de catálogos incompletos y de la normalización por selección, con una campaña de datos simulados igual en espíritu a la tuya. Tu proyecto declara catálogos <i>completos por construcción</i>: este paper es la referencia para justificar por qué esa simplificación es legítima y qué queda afuera.</div>
+        <div class="item-read">Sección II (likelihood y selección). El resto sirve como catálogo de controles que podés copiar.</div>
+      </div>
+    </div>
+
+    <div class="item" data-id="r16">
+      <input type="checkbox" class="tick" aria-label="Leído">
+      <div class="item-body">
+        <div class="item-title"><span class="t">Determining the Hubble constant from gravitational wave observations of merging compact binaries</span><span class="chip wa">Datos</span><span class="chip ref">Consulta</span></div>
+        <div class="item-ref"><span>Nissanke et al. 2013</span><a href="https://arxiv.org/abs/1307.2638">arXiv:1307.2638</a><span>≈1,5 h</span></div>
+        <div class="item-why">Inferencia bayesiana de <i>H</i><sub>0</sub> con sirenas, con un tratamiento detallado del error de distancia y de la inclinación. Buen material de comparación para tus barridos en <span class="eq">σ<sub>D</sub>/D<sub>L</sub></span>.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-head">
+      <span class="lvl">N4</span>
+      <h3>Estado del arte, para la introducción y la discusión</h3>
+      <span class="budget">hojear para la presentación</span>
+    </div>
+    <p class="tier-why">No hace falta para construir nada. Hace falta para que la presentación ubique tu resultado en el mapa y para contestar “¿y esto cómo se compara con lo que se hace hoy?”.</p>
+
+    <div class="item" data-id="r17">
+      <input type="checkbox" class="tick" aria-label="Leído">
+      <div class="item-body">
+        <div class="item-title"><span class="t">Cosmology with gravitational waves: a review</span><span class="chip wa">Datos</span><span class="chip ref">Consulta</span></div>
+        <div class="item-ref"><span>Mastrogiovanni et al. 2024, Ann. Phys. 536, 2200180</span><a href="https://onlinelibrary.wiley.com/doi/full/10.1002/andp.202200180">DOI</a><span>≈2 h</span></div>
+        <div class="item-why">La review moderna. Leer la introducción y la sección de sirenas oscuras y espectrales. Te da el vocabulario actual (<i>spectral siren</i>, <i>completitud del catálogo</i>, <i>modified GW propagation</i>) para poder decir con precisión qué <b>no</b> hace tu proyecto.</div>
+      </div>
+    </div>
+
+    <div class="item" data-id="r18">
+      <input type="checkbox" class="tick" aria-label="Leído">
+      <div class="item-body">
+        <div class="item-title"><span class="t">Constraints on the cosmic expansion history from GWTC-3</span><span class="chip wa">Datos</span><span class="chip ref">Consulta</span></div>
+        <div class="item-ref"><span>LVK 2023, ApJ 949, 76</span><a href="https://arxiv.org/abs/2111.03604">arXiv:2111.03604</a><span>≈0,5 h</span></div>
+        <div class="item-why">El análisis oficial que combina GW170817 brillante con sirenas oscuras de todo el catálogo. Una figura para la presentación.</div>
+      </div>
+    </div>
+
+    <div class="item" data-id="r19">
+      <input type="checkbox" class="tick" aria-label="Leído">
+      <div class="item-body">
+        <div class="item-title"><span class="t">GWTC-4.0 y GWTC-5.0: constraints on the cosmic expansion rate</span><span class="chip wa">Datos</span><span class="chip ref">Consulta</span></div>
+        <div class="item-ref"><span>LVK 2025 / 2026</span><a href="https://arxiv.org/abs/2509.04348">arXiv:2509.04348</a><a href="https://arxiv.org/abs/2605.27227">arXiv:2605.27227</a><span>≈0,5 h</span></div>
+        <div class="item-why">El estado actual, con O4 incluido. Solo para el slide de contexto y para citar el número vigente de <i>H</i><sub>0</sub> con sirenas. Verificá la fecha y la versión al citar: esta línea se mueve rápido.</div>
+      </div>
+    </div>
+
+    <div class="item" data-id="r20">
+      <input type="checkbox" class="tick" aria-label="Leído">
+      <div class="item-body">
+        <div class="item-title"><span class="t">ICAROGW: inference of astrophysical population properties</span><span class="chip wb">Modelo</span><span class="chip ref">Consulta</span></div>
+        <div class="item-ref"><span>Mastrogiovanni et al. 2024, A&amp;A 682, A167</span><a href="https://arxiv.org/abs/2305.17973">arXiv:2305.17973</a><span>≈0,5 h</span></div>
+        <div class="item-why">Implementación de referencia. No la uses: el proyecto pide construir la likelihood desde cero. Sirve para contrastar decisiones de diseño y para citar como “lo que haríamos si esto escalara”.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="nolectura">
+  <div class="sec-head"><span class="num">06</span><h2>Lo que no vas a leer</h2></div>
+  <p class="sec-sub">En diez días, decidir qué no leer vale tanto como la lista de arriba. Cada línea de acá abajo es un agujero de conejo real que consume días y no cambia ni un número de tu resultado. Que quede escrito en el registro de decisiones, con esta justificación.</p>
+  <div class="skip">
+    <ul>
+      <li><b>Waveform modelling</b> — post-newtoniano de orden alto, EOB, relatividad numérica, modos superiores. Tu observable es una amplitud escalar con ruido gaussiano; el §3 del proyecto ya declara que no hace falta reanalizar el strain.</li>
+      <li><b>Matched filtering y pipelines de detección</b> — bancos de templates, FAR, coincidencia entre detectores. Solo necesitás el concepto de umbral de SNR, y solo para escribir la regla generativa de detección.</li>
+      <li><b>Internals de samplers</b> — nested sampling, <code>bilby</code>, <code>LALInference</code>. Trabajás sobre una grilla 1D en <i>H</i><sub>0</sub>; el proyecto lo dice explícitamente.</li>
+      <li><b>Ecuación de estado de estrellas de neutrones y física de kilonovas</b> — irrelevante salvo el resultado de inclinación de Hotokezaka, que ya está en la lista.</li>
+      <li><b>Spectral sirens y distribución de masas</b> — es la alternativa moderna al catálogo de galaxias, y el §3 la declara fuera de alcance. Una frase en la discusión, cero horas de lectura.</li>
+      <li><b>Propagación modificada de GW y gravedad modificada</b> — tentador para quien viene de gravedad modificada, pero es otro proyecto. Mencionalo como extensión y seguí de largo.</li>
+      <li><b>Lente débil y errores de calibración</b> — subdominantes a 40 Mpc. Declarados fuera del dominio de validez.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="pizarron">
+  <div class="sec-head"><span class="num">07</span><h2>El pizarrón: nueve cosas que tenés que poder derivar</h2></div>
+  <p class="sec-sub">El criterio de que “entendieron la pregunta” es operativo: se puede hacer esto en un pizarrón, sin apuntes, delante de quien evalúa. Cada ítem tiene un test numérico asociado, y ésos son exactamente los controles que pide el §7 del enunciado. Van <b>antes</b> de que el agente escriba código: son lo que permite decidir si lo que devuelve está bien.</p>
+  <p class="sec-sub"><b>También se reparten, por perfil, y en diez días no todas se hacen completas.</b> Las <b>completas</b> son las que producen la respuesta esperada de una pieza crítica: sin ellas no hay forma de supervisar al agente. Las <b>notas cortas</b> son un párrafo con la idea y la referencia, suficientes para defenderlas en la presentación. La número 4 se hace entre los dos: es el test que comparten ambos pipelines y, para quien nunca armó una likelihood, la mejor primera práctica.</p>
+  <div class="deriv">
+    <div class="item" data-id="d1"><input type="checkbox" class="tick" aria-label="Hecho"><span class="dnum"></span>
+      <div class="item-body"><div class="item-title"><span class="t">De dónde sale <span class="eq">A(ι) = (1+cos²ι)/2</span><span class="chip wb">Modelo</span><span class="chip ref">Nota corta</span></span></div>
+      <div class="item-why">Partiendo de <span class="eq">h<sub>+</sub></span>, <span class="eq">h<sub>×</sub></span> de una órbita circular y de la respuesta del detector, mostrar que la amplitud observada depende de <span class="eq">D<sub>L</sub></span> e <span class="eq">ι</span> solo por esa combinación (más el término <span class="eq">cos ι</span>). Explicar por qué eso produce una banana y no una elipse.</div></div>
+    </div>
+    <div class="item" data-id="d2"><input type="checkbox" class="tick" aria-label="Hecho"><span class="dnum"></span>
+      <div class="item-body"><div class="item-title"><span class="t">Por qué <span class="eq">D<sub>L</sub></span><span class="chip wb">Modelo</span><span class="chip ref">Nota corta</span> es absoluta y el redshift no viene incluido</span></div>
+      <div class="item-why">La fase da <span class="eq">𝓜(1+z)</span>, la amplitud da <span class="eq">𝓜<sup>5/3</sup>/D<sub>L</sub></span>: la degeneración masa–redshift es exactamente la razón por la que hace falta un host. Una frase, pero es <i>la</i> frase del proyecto.</div></div>
+    </div>
+    <div class="item" data-id="d3"><input type="checkbox" class="tick" aria-label="Hecho"><span class="dnum"></span>
+      <div class="item-body"><div class="item-title"><span class="t">El régimen de bajo redshift y dónde se rompe</span><span class="chip wb">Modelo</span><span class="chip ref">Nota corta</span></div>
+      <div class="item-why">Justificar <span class="eq">v = H<sub>0</sub>D<sub>L</sub> + v<sub>pec</sub></span> y estimar a qué <i>z</i> el término de <span class="eq">q<sub>0</sub></span> se vuelve comparable a <span class="eq">σ<sub>D</sub>/D<sub>L</sub></span>. Ese número es una de las cotas de tu dominio de validez.</div></div>
+    </div>
+    <div class="item" data-id="d4"><input type="checkbox" class="tick" aria-label="Hecho"><span class="dnum"></span>
+      <div class="item-body"><div class="item-title"><span class="t">La marginalización bright, analítica</span><span class="chip wab">Ambos</span><span class="chip core">Completa</span></div>
+      <div class="item-why">Con <span class="eq">ι</span> fija y <span class="eq">v<sub>pec</sub></span> gaussiana, la integral del §4.2 se hace a mano y da una gaussiana en <span class="eq">H<sub>0</sub></span>. Ese resultado cerrado es el control “acuerdo entre marginalización analítica y numérica”.</div></div>
+    </div>
+    <div class="item" data-id="d5"><input type="checkbox" class="tick" aria-label="Hecho"><span class="dnum"></span>
+      <div class="item-body"><div class="item-title"><span class="t">Reweighting: <span class="eq">𝓛 = posterior / π<sub>PE</sub></span><span class="chip wa">Datos</span><span class="chip core">Completa</span></span></div>
+      <div class="item-why">Escribir el cociente explícito con el prior real de las muestras públicas (<span class="eq">∝ D<sub>L</sub>²</span>, isótropo en <span class="eq">cos ι</span>) y explicar qué pasa con la varianza del estimador cuando el prior nuevo es mucho más angosto que el original. Acá se muere el 90% de los proyectos parecidos.</div></div>
+    </div>
+    <div class="item" data-id="d6"><input type="checkbox" class="tick" aria-label="Hecho"><span class="dnum"></span>
+      <div class="item-body"><div class="item-title"><span class="t">La mezcla dark, y por qué es multimodal</span><span class="chip wb">Modelo</span><span class="chip core">Completa</span></div>
+      <div class="item-why">Mostrar que cada galaxia candidata aporta un pico en <span class="eq">H<sub>0</sub> ≈ v<sub>g</sub>/D<sub>L</sub></span>, y que el ancho del intervalo creíble deja de ser una medida honesta de información cuando los picos se separan. Ésa es la justificación de usar <span class="eq">D<sub>KL</sub></span> y no solo el ancho.</div></div>
+    </div>
+    <div class="item" data-id="d7"><input type="checkbox" class="tick" aria-label="Hecho"><span class="dnum"></span>
+      <div class="item-body"><div class="item-title"><span class="t">El caso límite <span class="eq">N<sub>gal</sub> = 1</span><span class="chip wb">Modelo</span><span class="chip core">Completa</span></span></div>
+      <div class="item-why">Demostrar en el papel que la likelihood dark se reduce exactamente a la bright. Es el test unitario más barato y más informativo de todo el repositorio.</div></div>
+    </div>
+    <div class="item" data-id="d8"><input type="checkbox" class="tick" aria-label="Hecho"><span class="dnum"></span>
+      <div class="item-body"><div class="item-title"><span class="t">La normalización por selección</span><span class="chip wa">Datos</span><span class="chip ref">Nota corta</span></div>
+      <div class="item-why">Escribir <span class="eq">p(d | H<sub>0</sub>, detectado) = 𝓛(d|H<sub>0</sub>) / α(H<sub>0</sub>)</span> y calcular <span class="eq">α</span> para tu regla generativa (umbral fijo en amplitud). Verificar si depende de <span class="eq">H<sub>0</sub></span> en el caso bright con host fijo y en el dark: no es lo mismo, y confundirlos sesga <span class="eq">N<sub>eq</sub></span>.</div></div>
+    </div>
+    <div class="item" data-id="d9"><input type="checkbox" class="tick" aria-label="Hecho"><span class="dnum"></span>
+      <div class="item-body"><div class="item-title"><span class="t">La predicción de <span class="eq">N<sub>eq</sub></span><span class="chip wb">Modelo</span><span class="chip core">Completa</span> antes de correr nada</span></div>
+      <div class="item-why">Con <span class="eq">D<sub>KL</sub></span> gaussiano y el escaleo <span class="eq">σ ∝ N<sup>−1/2</sup></span>, estimar a mano cómo debería crecer <span class="eq">N<sub>eq</sub></span> con <span class="eq">N<sub>gal</sub></span> y con <span class="eq">σ<sub>D</sub>/D<sub>L</sub></span>. <b>Registrar esa predicción con fecha, en el repo, antes del primer barrido.</b> Si el código coincide, tenés un control fuerte; si no coincide, tenés o un bug o un resultado interesante — y podés distinguirlos.</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="plan">
+  <div class="sec-head"><span class="num">08</span><h2>Plan de diez días</h2></div>
+  <p class="sec-sub">Supone unas tres o cuatro horas por día cada uno, con la implementación delegada en agentes. No tiene colchón: por eso el alcance se recorta de entrada y hay un plan B escrito para cada punto de riesgo. La presentación es sobre qué hicieron y hasta dónde llegaron, así que llegar a una parte con los controles en verde vale más que llegar a todo sin ellos.</p>
+  <div class="legend">
+    <span><i style="background:var(--dark)"></i> Modelo</span>
+    <span><i style="background:var(--bright)"></i> Datos</span>
+    <span><i style="background:var(--check)"></i> Los dos</span>
+  </div>
+
+  <div class="weeks">
+    <div class="week">
+      <div class="week-head">
+        <div class="wk">D1 – D5</div>
+        <h3>Armar y validar</h3>
+        <p>Lectura mínima, core compartido, las dos likelihoods y GW170817.</p>
+      </div>
+      <div class="days">
+        <div class="day"><span class="d">D1</span><div class="c"><strong><span class="lane ab">Ambos</span>Lecturas de la reunión cero</strong><span>Schutz, el cuerpo de Abbott 2017, la intro y la ecuación de Fishbach, los fundamentos de Thrane &amp; Talbot. ≈3 h. Cada uno anota lo que no entendió.</span></div></div>
+        <div class="day"><span class="d">D1</span><div class="c"><strong><span class="lane b">Modelo</span>Crear el repositorio</strong><span>Con su agente, siguiendo <code>docs/SETUP_REPO.md</code>: estructura, entorno con versiones fijadas, repo en GitHub, invitación al compañero. ≈1 h.</span></div></div>
+        <div class="day"><span class="d">D2</span><div class="c"><strong><span class="lane ab">Ambos</span>Reunión cero y <code>spec.md</code></strong><span>Las seis decisiones, las cinco convenciones con dueño y las decisiones abiertas mínimas. Media hora cada uno contando su lectura. El agente pasa lo decidido a <code>spec.md</code>; lo revisan juntos y lo mergean.</span></div></div>
+        <div class="day"><span class="d">D2</span><div class="c"><strong><span class="lane a">Datos</span>Clonar y abrir los datos</strong><span>Entorno, script de descarga, HDF5 de GWOSC y <code>Figure1.csv</code> con procedencia completa. Objetivo: saber qué columnas hay y con qué prior exacto se generaron las muestras.</span></div></div>
+        <div class="day"><span class="d">D3</span><div class="c"><strong><span class="lane b">Modelo</span>Core y primera likelihood</strong><span>Derivación 4 en papel → el agente implementa grilla, prior, <span class="eq">𝓛<sub>GW</sub></span>, métricas y el toy con su test analítico. El toy se lee línea por línea. Escribe la especificación del test sintético del reweighting.</span></div></div>
+        <div class="day"><span class="d">D3</span><div class="c"><strong><span class="lane a">Datos</span>Reweighting, primero en sintético</strong><span>Methods de Abbott 2017 y la parte de reweighting de Thrane &amp; Talbot; nota de la derivación 5. El agente implementa el reweighting y lo prueba contra el test especificado por Modelo.</span></div></div>
+        <div class="day"><span class="d">D4</span><div class="c"><strong><span class="lane b">Modelo</span>Likelihoods sintéticas y predicción</strong><span>Bright sintética y mezcla dark, con tests de normalización y recuperación de <i>H</i><sub>0</sub>. Predicción de <span class="eq">N<sub>eq</sub></span> commiteada con fecha.</span></div></div>
+        <div class="day"><span class="d">D4</span><div class="c"><strong><span class="lane a">Datos</span>GW170817 contra la curva publicada</strong><span>Reweighting sobre las muestras reales, posterior de <i>H</i><sub>0</sub> y comparación con <code>Figure1.csv</code>. La tolerancia se escribe <b>antes</b> de comparar. Tamaño de muestra efectivo registrado.</span></div></div>
+        <div class="day"><span class="d">D5</span><div class="c"><strong><span class="lane b">Modelo</span>Combinación y métricas</strong><span>Producto de likelihoods de <i>N</i> eventos, <span class="eq">D<sub>KL</sub></span> con su test gaussiano analítico, invariancia al orden.</span></div></div>
+        <div class="day"><span class="d">D5</span><div class="c"><strong><span class="lane a">Datos</span>Catálogos y detección</strong><span>Generador de catálogos uniforme con semilla y versión; regla de detección simple con umbral fijo; nota de la derivación 8: ¿depende <span class="eq">α</span> de <i>H</i><sub>0</sub> en la grilla elegida?</span></div></div>
+        <div class="day"><span class="d">D5</span><div class="c"><strong><span class="lane ab">Ambos</span>Integración y tests cruzados</strong><span>Datos escribe contra el código de Modelo el test de <span class="eq">N<sub>gal</sub>=1</span>. Primer run desde cero. <b>Punto de control</b>: ver abajo.</span></div></div>
+      </div>
+      <div class="milestone">
+        <div class="lbl">Punto de control · D5</div>
+        <p>¿Cierra GW170817 contra la curva publicada dentro de la tolerancia? Si no, <b>plan B</b>: se reporta la reproducción aproximada con la discrepancia documentada y se sigue. El resultado principal no depende de esto, porque la sirena brillante de referencia es sintética.</p>
+      </div>
+    </div>
+
+    <div class="week">
+      <div class="week-head">
+        <div class="wk">D6 – D10</div>
+        <h3>Resultado, auditoría, presentación</h3>
+        <p>No se toca la física después del D7. Lo nuevo va a “trabajo futuro”.</p>
+      </div>
+      <div class="days">
+        <div class="day"><span class="d">D6</span><div class="c"><strong><span class="lane ab">Ambos</span>Piloto y barrido reducido</strong><span>Modelo fija la grilla (del orden de 3 valores de <span class="eq">σ<sub>D</sub>/D<sub>L</sub></span> × 3 de <span class="eq">N<sub>gal</sub></span>, pocas semillas) después de cronometrar un piloto. Datos lo corre. Modelo lo lee contra la predicción antes de mirar cualquier otra cosa.</span></div></div>
+        <div class="day"><span class="d">D7</span><div class="c"><strong><span class="lane ab">Ambos</span>Controles y congelamiento</strong><span>Grilla, Monte Carlo, invariancias. Cada uno acepta los controles del otro, nunca los propios. Datos congela la configuración. Figuras finales generadas por script.</span></div></div>
+        <div class="day"><span class="d">D8</span><div class="c"><strong><span class="lane ab">Ambos</span>Reproducción y auditoría</strong><span>Cada uno corre el pipeline del otro en un clon limpio. Un agente sin contexto recibe solo el repo y reproduce una figura y un número; sus fallos van literalmente al registro. Correcciones.</span></div></div>
+        <div class="day"><span class="d">D9</span><div class="c"><strong><span class="lane b">Modelo</span><span class="lane a">Datos</span>Presentación e informe</strong><span>Modelo arma pregunta, método y resultado; Datos arma datos, validación y controles. Juntos: el slide de supervisión y el de limitaciones. El informe escrito, en el formato que pida <code>final-project.html</code> y en la versión más corta que lo cumpla.</span></div></div>
+        <div class="day"><span class="d">D10</span><div class="c"><strong><span class="lane ab">Ambos</span>Ensayo y presentación</strong><span>Ensayo cronometrado a la mañana, con preguntas sobre supuestos. Presentación oral.</span></div></div>
+      </div>
+      <div class="milestone">
+        <div class="lbl">Qué se presenta en cada escenario</div>
+        <p>Todo sale: pregunta, validación, <span class="eq">N<sub>eq</sub></span> y supervisión. El barrido no corre: <span class="eq">N<sub>eq</sub></span> para una o dos configuraciones. GW170817 no cierra: la discrepancia como resultado. La auditoría falla: el fallo como hallazgo sobre reproducibilidad.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cut">
+    <h4>Recortado respecto del plan original</h4>
+    <p>Queda declarado como trabajo futuro, no como pendiente:</p>
+    <ul>
+      <li><b>Experimento 7</b> — hosts agrupados en estructuras.</li>
+      <li><b>Experimento 8</b> — información de inclinación, incluida la comparación con el jet.</li>
+      <li><b>Sensibilidad a la velocidad peculiar</b> y reglas alternativas de pesos <span class="eq">w<sub>g</sub></span>.</li>
+      <li><b>El barrido grande</b> — queda uno reducido, suficiente para responder la pregunta en pocas configuraciones.</li>
+      <li><b>Efectos de selección elaborados</b> — se usa un umbral fijo; si complica, se declaran fuera del dominio de validez con una decisión registrada.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="division">
+  <div class="sec-head"><span class="num">09</span><h2>Costura, convenciones y reglas</h2></div>
+  <p class="sec-sub">El reparto dice quién es dueño de cada cosa. Esta sección dice cómo se pega todo sin duplicar trabajo. La regla es una sola: <b>se divide el hacer, se comparte solo el decidir</b>. El riesgo propio de trabajar de a dos —y con dos agentes— es terminar con dos likelihoods de GW ligeramente distintas y que <span class="eq">N<sub>eq</sub></span> mida la diferencia entre dos implementaciones en lugar del valor de conocer el host.</p>
+
+  <div class="seam">
+    <div class="eyebrow">Las cinco convenciones compartidas</div>
+    <h4>Un dueño por pieza, acordadas en la reunión cero</h4>
+    <p>Idénticas en todo el repo: la <b>grilla y el prior de <i>H</i><sub>0</sub></b>, el <b>modelo de amplitud <span class="eq">𝓛<sub>GW</sub>(D<sub>L</sub>, ι)</span></b> y las <b>métricas de información</b>, que escribe Modelo; la <b>regla generativa de detección</b> y el <b>formato de resultado con su procedencia</b>, que escribe Datos. Cada pieza la revisa el otro. Viven en un único módulo y se importan desde ahí: el experimento 3 pide “mantener fija la información GW y reemplazar el host”, y eso solo es verdad si es el mismo objeto de código.</p>
+  </div>
+
+  <div class="seam" style="border-left-color:var(--dark);margin-top:22px">
+    <div class="eyebrow" style="color:var(--dark)">La costura</div>
+    <h4>Un evento, para el resto del pipeline, es una sola cosa</h4>
+    <div class="contract">evento → L_j(H0): array normalizado sobre la grilla compartida
+              + procedencia: {origen, semilla, config, versión del generador}</div>
+    <p style="margin-top:12px">Cómo se llega a ese array —reweighting de GW170817 o mezcla sobre un catálogo sintético— es de cada carril. Lo que pasa después —combinar, medir información, calcular <span class="eq">N<sub>eq</sub></span>— es código compartido, escrito una vez.</p>
+  </div>
+
+  <div class="seam" style="border-left-color:var(--bright);margin-top:22px">
+    <div class="eyebrow" style="color:var(--bright)">La decisión que los desacopla</div>
+    <h4>La sirena brillante de referencia es sintética, no GW170817</h4>
+    <p>GW170817 real es validación, no insumo de <span class="eq">N<sub>eq</sub></span>. Si el reweighting no cierra para el punto de control del D5, el resultado principal sigue en pie y lo pendiente es una validación, no el proyecto. En diez días, esto es lo que hace viable el plan.</p>
+  </div>
+
+  <div class="seam" style="border-left-color:var(--check);margin-top:22px">
+    <div class="eyebrow">Los dos tests cruzados</div>
+    <h4>Cada uno prueba la parte del otro donde el otro es más débil</h4>
+    <p><b>Modelo</b> especifica el test sintético del reweighting (D3): muestras generadas con un prior conocido tienen que devolver la likelihood inyectada. <b>Datos</b> escribe contra el código de Modelo el test de que <span class="eq">N<sub>gal</sub>=1</span> reproduce el caso bright, con un catálogo generado por él (D5).</p>
+  </div>
+
+  <h3 style="margin-top:38px">Lo poco que no se divide</h3>
+  <div class="skip" style="margin-top:14px">
+    <ul>
+      <li><b>Las cinco convenciones.</b> Se acuerdan en la reunión cero y se registran. Un cambio unilateral invalida en silencio los resultados del otro.</li>
+      <li><b>La aceptación de los controles.</b> Cada uno acepta los controles del otro, nunca los propios.</li>
+      <li><b>Las limitaciones, el slide de supervisión y las conclusiones.</b> Se arman juntos el D9.</li>
+      <li><b>Poder explicar la parte del otro.</b> Sale de la reunión cero, de revisar los PRs del otro y de la reproducción cruzada del D8.</li>
+    </ul>
+  </div>
+
+  <h3 style="margin-top:38px">Dos personas, dos agentes, un repositorio</h3>
+  <div class="rules" style="margin-top:14px">
+    <div class="rule"><span class="mk">01</span><p><b>Un solo dueño del código compartido: Modelo.</b> Nadie más lo modifica sin avisar, y ningún agente lo toca por iniciativa propia.</p></div>
+    <div class="rule"><span class="mk">02</span><p><b>Ramas por carril —<code>modelo/…</code>, <code>datos/…</code>— y PRs chicos y diarios a <code>main</code>, revisados por el otro.</b> Con dos agentes generando código rápido, un PR de tres días no se puede revisar.</p></div>
+    <div class="rule"><span class="mk">03</span><p><b>Cada agente trabaja dentro de su carril.</b> Está escrito en <code>AGENTS.md</code> y en la guía de cada carril; igual se verifica en el diff.</p></div>
+    <div class="rule"><span class="mk">04</span><p><b>Un archivo por decisión:</b> <code>decisiones/AAAA-MM-DD-iniciales-tema.md</code>, nunca un archivo único que genere conflictos de merge todos los días.</p></div>
+    <div class="rule"><span class="mk">05</span><p><b>La configuración congelada tiene un solo dueño: Datos.</b> Después del D7 solo cambia con una decisión registrada por los dos.</p></div>
+  </div>
+
+  <h3 style="margin-top:38px">La sincronización</h3>
+  <p class="sec-sub">Quince minutos por día, por el medio que usen. La pregunta es <b>“¿qué decidiste y qué error del agente encontraste?”</b>. Lo que hiciste está en el commit; lo que decidiste va a <code>decisiones/</code> y los errores al registro de supervisión.</p>
+</section>
+
+<section id="datos">
+  <div class="sec-head"><span class="num">10</span><h2>Datos reales: qué hay, exactamente</h2></div>
+  <p class="sec-sub">Verificado al 7 de septiembre de 2026. Descargar el D2, con un script del repo, y registrar URL, DOI, fecha, checksum y descripción de columnas en el mismo commit, como pide el §9.</p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Fuente</th><th>Qué contiene</th><th>Para qué lo usás</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><a href="https://gwosc.org/eventapi/html/GWTC-1-confident/GW170817/v3/">GWOSC — GW170817 (GWTC-1)</a></td>
+          <td><code>GW170817_GWTC-1.hdf5</code> con las muestras posteriores. Waveform <code>IMRPhenomPv2NRT_lowSpin_prior</code>. Entrada DCC de las muestras: <code>P1800370</code>.</td>
+          <td>Las muestras de <span class="eq">D<sub>L</sub></span> e <span class="eq">ι</span> sobre las que hacés reweighting. Verificá en el archivo qué columnas hay y con qué prior se generaron: es el insumo del control del §7 sobre priors.</td>
+        </tr>
+        <tr>
+          <td><a href="https://dcc.ligo.org/P1700296/public">LIGO DCC — P1700296</a></td>
+          <td><code>Figure1.csv</code> (posterior de <i>H</i><sub>0</sub>), <code>Figure2.csv</code>, <code>Figure3.csv</code>, <code>ExtendedDataFigure2.csv</code>, más el PDF del paper.</td>
+          <td><code>Figure1.csv</code> es tu blanco de validación: la curva publicada contra la que superponés tu posterior reconstruido.</td>
+        </tr>
+        <tr>
+          <td><a href="https://arxiv.org/abs/1807.05667">Fishbach et al. 2019</a></td>
+          <td>Posterior de <i>H</i><sub>0</sub> para GW170817 tratado como sirena oscura, con catálogo real.</td>
+          <td>Control de sanidad del lado dark: cuánto se degrada la medición al perder el host, con datos reales. Tu experimento 3 debería reproducir la <i>tendencia</i>, no el número.</td>
+        </tr>
+        <tr>
+          <td>Sintéticos propios</td>
+          <td>Catálogos 1D en redshift, completos por construcción, con semilla y versión del generador guardadas.</td>
+          <td>Todo el barrido del §6. Cada conjunto guarda su configuración: sin eso, la dispersión entre realizaciones no es reproducible y el resultado principal no es defendible.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="riesgos">
+  <div class="sec-head"><span class="num">11</span><h2>Dónde se rompe esto</h2></div>
+  <p class="sec-sub">Ordenados por probabilidad de arruinar el resultado. Los cuatro primeros producen números que <i>parecen</i> razonables, que es lo peligroso cuando el trabajo está delegado.</p>
+
+  <div class="risk">
+    <div class="r-h"><strong>Aceptar código que no entendemos</strong><span class="sev">Crítico</span></div>
+    <p>El modo de falla propio de delegar fuera del área de experiencia. El agente produce código que corre y números plausibles; sin una respuesta esperada no hay forma de saber si están bien.</p>
+    <p class="fix"><b>Antídoto:</b> el protocolo de «Supervisar al agente». Sin respuesta esperada no hay pedido; las piezas críticas se leen línea por línea.</p>
+  </div>
+
+  <div class="risk">
+    <div class="r-h"><strong>Dos implementaciones de la misma likelihood de GW</strong><span class="sev">Crítico</span></div>
+    <p>Con dos agentes en dos computadoras es fácil que cada uno escriba su versión de <span class="eq">𝓛<sub>GW</sub></span>. <span class="eq">N<sub>eq</sub></span> incorpora la diferencia entre dos códigos: un número estable, reproducible y sin sentido físico.</p>
+    <p class="fix"><b>Antídoto:</b> un solo módulo compartido con dueño único, y un test que verifique que ambos caminos importan la misma función. Es el primer test del repo.</p>
+  </div>
+
+  <div class="risk">
+    <div class="r-h"><strong>El reweighting por el prior de PE</strong><span class="sev">Crítico</span></div>
+    <p>Tratar el posterior publicado como si fuera la likelihood da un <i>H</i><sub>0</sub> desplazado y con el ancho equivocado, en apariencia publicable. Y si el prior nuevo es mucho más angosto que el original, unas pocas muestras cargan todo el peso sin aviso.</p>
+    <p class="fix"><b>Antídoto:</b> el test sintético especificado por Modelo antes de tocar datos reales, y el tamaño de muestra efectivo registrado en cada corrida.</p>
+  </div>
+
+  <div class="risk">
+    <div class="r-h"><strong>Selección inconsistente entre escenarios</strong><span class="sev med">Alto</span></div>
+    <p>Si la regla de detección cambia entre bright y dark, o entre valores de <span class="eq">N<sub>gal</sub></span>, <span class="eq">N<sub>eq</sub></span> mide la implementación y no la física.</p>
+    <p class="fix"><b>Antídoto:</b> una sola función de detección fijada en <code>spec.md</code>, con su test. Si complica, se declara fuera de alcance, pero igual para todos los escenarios.</p>
+  </div>
+
+  <div class="risk">
+    <div class="r-h"><strong>Multimodalidad leída con la métrica equivocada</strong><span class="sev med">Alto</span></div>
+    <p>Un intervalo del 68% angosto puede sugerir información donde hay ambigüedad entre dos valores de <i>H</i><sub>0</sub>.</p>
+    <p class="fix"><b>Antídoto:</b> reportar siempre las dos métricas juntas y mostrar al menos un posterior multimodal.</p>
+  </div>
+
+  <div class="risk">
+    <div class="r-h"><strong>No llegar</strong><span class="sev med">Medio</span></div>
+    <p>Diez días a tiempo parcial no tienen colchón. Pero la presentación es sobre qué hicieron y hasta dónde llegaron: no llegar solo es un problema si no hay nada verificado para mostrar.</p>
+    <p class="fix"><b>Antídoto:</b> el punto de control del D5, los escenarios de presentación escritos en el plan, y el registro de supervisión, que tiene valor aunque la física quede a medias.</p>
+  </div>
+</section>
+
+<div class="progbar">
+  <span class="lab" id="plab">0 / 0</span>
+  <span class="track"><span class="fill" id="pfill"></span></span>
+  <button id="reset" type="button">Reiniciar</button>
+</div>
+
+<footer>
+  <p><b>Sobre las referencias.</b> Los enlaces a arXiv, GWOSC y el DCC de LIGO se verificaron el 7 de septiembre de 2026. Los resultados de O4 se mueven rápido: confirmá versión y fecha de los papers de GWTC-4.0 y GWTC-5.0 antes de citar un número de <i>H</i><sub>0</sub> en la presentación.</p>
+  <p style="margin-top:10px"><b>Sobre los tiempos.</b> El plan supone unas tres o cuatro horas por día cada uno, con la implementación delegada en agentes. Si algo se atrasa, se recorta en este orden: lectura de Apoyo, tamaño del barrido, informe escrito. Lo que no se recorta es la supervisión de las piezas críticas.</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var KEY = "sirenas-progreso-v1";
+  var items = Array.prototype.slice.call(document.querySelectorAll(".item[data-id]"));
+  var fill = document.getElementById("pfill");
+  var lab = document.getElementById("plab");
+  var state = {};
+
+  function load(){
+    try {
+      var raw = localStorage.getItem(KEY);
+      if (raw) state = JSON.parse(raw) || {};
+    } catch (e) { state = {}; }
+  }
+  function save(){
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+  }
+  function render(){
+    var done = 0;
+    items.forEach(function(el){
+      var id = el.getAttribute("data-id");
+      var box = el.querySelector(".tick");
+      var on = !!state[id];
+      box.checked = on;
+      el.classList.toggle("done", on);
+      if (on) done++;
+    });
+    var pct = items.length ? (done / items.length) * 100 : 0;
+    fill.style.width = pct.toFixed(1) + "%";
+    lab.textContent = done + " / " + items.length + " completado";
+  }
+
+  load();
+  render();
+
+  items.forEach(function(el){
+    var id = el.getAttribute("data-id");
+    el.querySelector(".tick").addEventListener("change", function(ev){
+      if (ev.target.checked) { state[id] = true; } else { delete state[id]; }
+      save();
+      render();
+    });
+  });
+
+  document.getElementById("reset").addEventListener("click", function(){
+    state = {};
+    save();
+    render();
+  });
+})();
+</script>
+
+</body>
+</html>
