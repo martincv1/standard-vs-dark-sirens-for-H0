@@ -1,0 +1,8 @@
+# Modelo generativo de los eventos sintéticos «tipo GW170817» (spec.md §3;
+# decisiones/2026-09-25-UC-modelo-generativo-sinteticos.md). Lo usan el piloto y el barrido.
+# La grilla de H0 y el umbral de detección NO van acá: viven en src/sirenas/core/ y se importan de ahí.
+h0_true: 70.0    # km/s/Mpc, H0 inyectado
+v_min: 2000.0    # km/s, rango de la velocidad de Hubble de hosts e interlopers (uniforme en v, es decir en z)
+v_max: 4000.0    # km/s
+sigma_v: 166.0   # km/s, incertidumbre total de la velocidad de cada galaxia (150 peculiar + 72 medición, en cuadratura)
+d_ref: 40.0      # Mpc, sigma_a = eps / d_ref

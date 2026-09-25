@@ -1,0 +1,11 @@
+# Barrido reducido de los experimentos 4–6 (spec.md §5; decisiones/2026-09-25-UC-barrido-provisional.md).
+# Estado: PROVISIONAL. Se confirma después del piloto del D6. Después del D7 queda congelada:
+# solo cambia con una decisión registrada por los dos integrantes.
+experimento: barrido
+estado: provisional
+generativo: generativo.yaml
+eps: [0.03, 0.10, 0.30]   # ruido fraccional de amplitud; el sigma_D/D_L se mide y se reporta
+n_gal: [3, 10, 100]
+n_max: 200                # se evalúan todos los N = 1..n_max
+realizaciones: 200
+semilla_base: 20260925    # semilla de la celda i = semilla_base + i (orden: eps, después n_gal)

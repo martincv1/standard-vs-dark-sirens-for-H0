@@ -1,0 +1,10 @@
+# Piloto del D6: una celda del barrido, con pocas realizaciones, para cronometrar (spec.md §5).
+# La semilla base es distinta de la del barrido para que el piloto no reuse sus semillas.
+experimento: piloto
+estado: provisional
+generativo: generativo.yaml
+eps: [0.10]
+n_gal: [10]
+n_max: 200
+realizaciones: 20
+semilla_base: 1
