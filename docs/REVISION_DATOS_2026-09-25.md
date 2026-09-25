@@ -1,6 +1,6 @@
 # Revisión pendiente del carril Datos (2026-09-25)
 
-Para Modelo. Siete ramas de Datos encadenadas, cada una sale de la anterior. Conviene revisarlas y mergearlas **en este orden**; cada PR muestra solo lo nuevo si se apunta a la rama anterior, o todo junto si se apunta a `main`. Todo el código lo escribió el agente y lo supervisó Datos (Ulises). Con la última rama pasan 89 tests (`uv sync && uv run pytest`).
+Para Modelo. Ocho ramas de Datos encadenadas, cada una sale de la anterior. Conviene revisarlas y mergearlas **en este orden**; cada PR muestra solo lo nuevo si se apunta a la rama anterior, o todo junto si se apunta a `main`. Todo el código lo escribió el agente y lo supervisó Datos (Ulises). Con la última rama pasan 95 tests (`uv sync && uv run pytest`; sin `data/raw/` se saltean 2).
 
 **Lo que más necesita tu ojo**, porque toca tu carril o tus decisiones:
 1. Las decisiones de la reunión cero, que se tomaron sin vos (rama 1).
@@ -72,6 +72,14 @@ Los §6 (test sintético del reweighting) y §7 (predicción de $N_{\rm eq}$) so
 - **`data/configuracion.py`:** carga y valida las configs, y las expande en celdas con nombre, índice y semilla. Cada celda se puede guardar tal cual en `procedencia["config"]`. Las realizaciones usan `SeedSequence.spawn`, así que agregar realizaciones no cambia las anteriores.
 - **Tests:** que los valores coincidan con §3 y §5, que salgan 9 celdas con semillas consecutivas, que el piloto tenga semillas propias, que las celdas sean serializables y que se rechacen configs inválidas.
 - **Para vos:** los valores del barrido los fijás vos después del piloto (`AGENTS.md` §14, D6). Si cambian, van con una decisión nueva.
+
+## 8. `datos/reproducibilidad`: README, consola de Windows y ensayo en limpio
+
+- **`README.md`:** tiene la URL real del repo y los cinco pasos para reproducir todo en orden (descarga, prior, tests, validación y control con `git diff`), con el resultado esperado de cada uno.
+- **Scripts en consolas que no son UTF-8:** `verificar_prior_pe.py` se caía con `UnicodeEncodeError` al imprimir «∝» en cp1252. Los tres scripts que imprimen fuera de ASCII reconfiguran stdout y stderr. Hay un test estático, y otro que corre el script con la consola en cp437.
+- **Ensayo de reproducción en limpio** (`validacion/ensayo_reproduccion_2026-09-25.md`): se clonó la rama desde GitHub y se siguió el README. **Todo reproduce**: 95 tests, los mismos números de la validación, y `posterior.npz` y la figura idénticos byte a byte (en Windows).
+- **Hallazgo para tu entorno:** si clonás en una ruta muy larga de Windows, las DLL de `scipy` superan los 260 caracteres y `pytest` no arranca (`No module named 'scipy.linalg._cythonized_array_utils'`). Cloná en una ruta corta; el README lo advierte.
+- **Lo que no cubre:** otras plataformas, y la auditoría por un agente sin contexto del D8 (el que ensayó conocía el repo).
 
 ---
 
