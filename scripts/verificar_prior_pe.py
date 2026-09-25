@@ -24,6 +24,8 @@ ANALISIS = "IMRPhenomPv2NRT_lowSpin"
 
 
 def main() -> int:
+    # Imprime caracteres fuera de ASCII (∝, ±, tildes); una consola Windows en cp1252/cp437 no los codifica.
+    sys.stdout.reconfigure(encoding="utf-8")
     with h5py.File(HDF5, "r") as f:
         prior = f[f"{ANALISIS}_prior"][()]
         post = f[f"{ANALISIS}_posterior"][()]

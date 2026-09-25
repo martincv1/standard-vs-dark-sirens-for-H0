@@ -127,6 +127,8 @@ POR COMPLETAR.
 
 
 def main() -> int:
+    # Imprime caracteres fuera de ASCII (∝, ±, tildes); una consola Windows en cp1252/cp437 no los codifica.
+    sys.stdout.reconfigure(encoding="utf-8")
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--force", action="store_true", help="volver a bajar aunque ya exista")
     args = ap.parse_args()
