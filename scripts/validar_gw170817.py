@@ -47,6 +47,7 @@ def git(*args: str) -> str:
 def main() -> int:
     # Imprime caracteres fuera de ASCII (∝, ±, tildes); una consola Windows en cp1252/cp437 no los codifica.
     sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
     d = g.leer_distancias(HDF5)
     # spec.md §4: p(d) del paper ∝ d² y π_PE ∝ d², así que los pesos son constantes (control, no atajo).
     w = g.pesos_reweighting(d, lambda x: x**2, lambda x: x**2)

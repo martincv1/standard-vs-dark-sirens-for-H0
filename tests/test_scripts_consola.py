@@ -27,8 +27,12 @@ def imprime_fuera_de_ascii(ruta: Path) -> bool:
 
 @pytest.mark.parametrize("ruta", SCRIPTS, ids=lambda p: p.name)
 def test_si_imprime_fuera_de_ascii_reconfigura_stdout(ruta):
+    # stdout y stderr: descargar_datos.py manda los avisos por stderr, y el ensayo de reproducción
+    # (validacion/ensayo_reproduccion_2026-09-25.md) los mostró con las tildes rotas.
     if imprime_fuera_de_ascii(ruta):
-        assert 'sys.stdout.reconfigure(encoding="utf-8")' in ruta.read_text(encoding="utf-8")
+        fuente = ruta.read_text(encoding="utf-8")
+        assert 'sys.stdout.reconfigure(encoding="utf-8")' in fuente
+        assert 'sys.stderr.reconfigure(encoding="utf-8")' in fuente
 
 
 @pytest.mark.skipif(not HDF5.exists(), reason="data/raw no está: correr scripts/descargar_datos.py")

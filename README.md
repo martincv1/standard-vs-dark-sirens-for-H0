@@ -33,6 +33,8 @@ uv sync && uv run pytest
 
 Sin datos, los tests que leen `data/raw/` se saltean (aparecen como `skipped`).
 
+> **Windows: cloná en una ruta corta** (por ejemplo `C:\Users\<vos>\Desktop\...`). Si la carpeta del repo es muy profunda y las rutas largas de Windows están desactivadas (`LongPathsEnabled = 0`), las DLL de `scipy` dentro de `.venv` superan los 260 caracteres y `pytest` falla al importar, con `ModuleNotFoundError: No module named 'scipy.linalg._cythonized_array_utils'`. Pasó en el ensayo de reproducción: `validacion/ensayo_reproduccion_2026-09-25.md`.
+
 ### Reproducir todo, en orden
 
 ```bash
