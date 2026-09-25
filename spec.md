@@ -107,7 +107,7 @@ Parámetros heredados de GW170817: fusión BNS a decenas de Mpc (rango de $v$ qu
   2. cada borde del HPD 68,3 % a $\le 3$ km s⁻¹ Mpc⁻¹ de [62,0; 82,0];
   3. distancia de Kolmogorov (máxima diferencia de CDF) entre nuestro posterior en la grilla y la CDF empírica de `Figure1.csv`: $\le 0{,}05$.
 
-  Pasa si se cumplen las tres. Nota: las muestras de GWTC-1 no son exactamente las del paper de 2017 (el paper da $d_{\rm MAP} = 43{,}8$ Mpc; la mediana `lowSpin` es 40,0 Mpc), así que una discrepancia chica es esperable. Si no cierra en el D5, se aplica el plan B de `AGENTS.md` §14.
+  Pasa si se cumplen las tres. **Resultado (2026-09-25): no pasa** (MAP dentro; borde superior del HPD y KS fuera). Se aplica el plan B: `decisiones/2026-09-25-UC-plan-b-validacion-gw170817.md`. Nota: las muestras de GWTC-1 no son exactamente las del paper de 2017 (el paper da $d_{\rm MAP} = 43{,}8$ Mpc; la mediana `lowSpin` es 40,0 Mpc), así que una discrepancia chica es esperable. Si no cierra en el D5, se aplica el plan B de `AGENTS.md` §14.
 
 ## 5. Barrido (provisional; se confirma después del piloto del D6)
 
