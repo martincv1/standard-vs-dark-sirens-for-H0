@@ -77,7 +77,7 @@ def main() -> int:
                        "ks": c.TOL_KS},
         "resultado": res,
         "git_commit": git("rev-parse", "HEAD"),
-        "git_dirty": bool(git("status", "--porcelain")),
+        "git_dirty": bool(git("status", "--porcelain", "--untracked-files=no")),
         "versiones": {"python": platform.python_version(), "numpy": np.__version__, "scipy": scipy.__version__},
         "fecha_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
     }
