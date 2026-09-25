@@ -57,7 +57,7 @@ Después abrí tu agente dentro del repo y mandale el primer mensaje sugerido en
 
 | Hito | Estado |
 |---|---|
-| D2 · Reunión cero y `spec.md` | ☐ |
+| D2 · Reunión cero y `spec.md` | ☑ sin reunión: decisiones en `spec.md` y `decisiones/`, pendientes de revisión de Modelo |
 | D5 · Punto de control (GW170817 contra la curva publicada) | ☐ |
 | D7 · Resultados y configuración congelados | ☐ |
 | D8 · Reproducción en entorno limpio y auditoría por agente sin contexto | ☐ |

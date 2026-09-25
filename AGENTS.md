@@ -441,7 +441,9 @@ Supone unas 3–4 h por día cada uno. D10 es el día de la presentación.
 
 ## 19. Decisiones abiertas
 
-**Las toman los integrantes, en la reunión cero (D2) o después. Un agente no las resuelve.** Cuando se tomen, van a `spec.md` y a `decisiones/`.
+**Estado (2026-09-25): cerradas, pendientes de revisión de Modelo.** La reunión cero no se hizo. Por pedido explícito de Datos, un agente tomó todas las decisiones de abajo, que quedaron en `spec.md` y en `decisiones/2026-09-25-UC-*.md`. Es una excepción a la regla de esta sección, pedida por el usuario. A partir de ahora vale de nuevo la regla: **un agente no cambia estas decisiones**; un cambio necesita una decisión nueva registrada por los integrantes. Lo único que sigue abierto es la confirmación del barrido después del piloto del D6 (`spec.md` §5).
+
+Las decisiones eran:
 
 - Parámetros heredados por los eventos sintéticos «tipo GW170817» y cuáles se barren.
 - Regla del cruce con $N$ entero para $N_{\rm eq}$.
