@@ -1,0 +1,70 @@
+{
+  "origen": "scripts/validar_gw170817.py",
+  "entradas": {
+    "GW170817_GWTC-1.hdf5": {
+      "sha256": "eff59472991bb0f0fa8c1e58057093ce07b82eb4c112364e3578ba16fe54eca9",
+      "dataset": "IMRPhenomPv2NRT_lowSpin_posterior",
+      "columna": "luminosity_distance_Mpc"
+    },
+    "Figure1.csv": {
+      "sha256": "d1901efa8c4a76b5045e86c19be208f6f0a94256ee9b5c6423908fe5de3c77d2",
+      "columna": "H0_samples"
+    }
+  },
+  "constantes_abbott_2017": {
+    "v_r": 3327.0,
+    "sigma_v_r": 72.0,
+    "v_p": 310.0,
+    "sigma_v_p": 150.0,
+    "prior_v_p": [
+      -1000.0,
+      1000.0
+    ],
+    "prior_h0": "1/H0"
+  },
+  "tolerancia": {
+    "map": [
+      70.0,
+      3.0
+    ],
+    "hpd": [
+      [
+        62.0,
+        82.0
+      ],
+      3.0
+    ],
+    "ks": 0.05
+  },
+  "resultado": {
+    "map": 68.5,
+    "hpd": [
+      60.800000000000004,
+      86.7
+    ],
+    "hpd_medida": 26.00000000000037,
+    "ks": 0.08547151072923165,
+    "map_dentro": true,
+    "hpd_dentro": false,
+    "ks_dentro": false,
+    "figure1_histograma": {
+      "map": 69.5,
+      "hpd": [
+        62.5,
+        82.5
+      ]
+    },
+    "n_muestras": 8078,
+    "n_efectivo": 8078.0,
+    "media": 81.63355165974755,
+    "desvio": 19.814624920800885
+  },
+  "git_commit": "af39070cec386adb468f75b7b5deaaebb9f935e6",
+  "git_dirty": false,
+  "versiones": {
+    "python": "3.13.1",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1"
+  },
+  "fecha_utc": "2026-09-25T21:30:00+00:00"
+}

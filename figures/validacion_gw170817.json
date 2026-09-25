@@ -1,0 +1,9 @@
+{
+  "script": "scripts/validar_gw170817.py",
+  "entradas": [
+    "results/validacion_gw170817/posterior.npz",
+    "data/raw/Figure1.csv"
+  ],
+  "git_commit": "af39070cec386adb468f75b7b5deaaebb9f935e6",
+  "git_dirty": false
+}
