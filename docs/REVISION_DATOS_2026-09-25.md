@@ -1,6 +1,6 @@
 # Revisión pendiente del carril Datos (2026-09-25)
 
-Para Modelo. Seis ramas de Datos encadenadas, cada una sale de la anterior. Conviene revisarlas y mergearlas **en este orden**; cada PR muestra solo lo nuevo si se apunta a la rama anterior, o todo junto si se apunta a `main`. Todo el código lo escribió el agente y lo supervisó Datos (Ulises). Con la última rama pasan 74 tests (`uv sync && uv run pytest`).
+Para Modelo. Siete ramas de Datos encadenadas, cada una sale de la anterior. Conviene revisarlas y mergearlas **en este orden**; cada PR muestra solo lo nuevo si se apunta a la rama anterior, o todo junto si se apunta a `main`. Todo el código lo escribió el agente y lo supervisó Datos (Ulises). Con la última rama pasan 89 tests (`uv sync && uv run pytest`).
 
 **Lo que más necesita tu ojo**, porque toca tu carril o tus decisiones:
 1. Las decisiones de la reunión cero, que se tomaron sin vos (rama 1).
@@ -63,6 +63,16 @@ Los §6 (test sintético del reweighting) y §7 (predicción de $N_{\rm eq}$) so
 - **Tests:** ese límite, uniformidad de las demás galaxias, posición del host uniforme entre índices, y reproducibilidad.
 - **Pregunta abierta:** ¿quién sortea $v_{\rm obs}\sim\mathcal N(v,\sigma_v)$ (paso 5 de §3)? El catálogo guarda redshifts verdaderos. Nuestra propuesta: el generador de eventos, con la semilla de cada realización.
 
+## 7. `datos/configs`: configs del barrido y del piloto
+
+- **`configs/generativo.yaml`:** los parámetros del modelo generativo de §3, en un solo lugar.
+- **`configs/barrido.yaml`:** 3 ε × 3 $N_{\rm gal}$, $N$ hasta 200, 200 realizaciones y semilla base 20260925 (§5). Está marcado como provisional hasta el piloto.
+- **`configs/piloto.yaml`:** una celda del barrido (ε = 0,10, $N_{\rm gal}$ = 10) con 20 realizaciones y semillas propias, para cronometrar en el D6.
+- **La grilla y el umbral no se repiten en las configs:** se importan de `core/`, para que no puedan desincronizarse.
+- **`data/configuracion.py`:** carga y valida las configs, y las expande en celdas con nombre, índice y semilla. Cada celda se puede guardar tal cual en `procedencia["config"]`. Las realizaciones usan `SeedSequence.spawn`, así que agregar realizaciones no cambia las anteriores.
+- **Tests:** que los valores coincidan con §3 y §5, que salgan 9 celdas con semillas consecutivas, que el piloto tenga semillas propias, que las celdas sean serializables y que se rechacen configs inválidas.
+- **Para vos:** los valores del barrido los fijás vos después del piloto (`AGENTS.md` §14, D6). Si cambian, van con una decisión nueva.
+
 ---
 
 ## Qué necesitamos de vos, además de la revisión
@@ -70,3 +80,4 @@ Los §6 (test sintético del reweighting) y §7 (predicción de $N_{\rm eq}$) so
 - **$\mathcal L_{\rm GW}$ y $A(\iota)$ en `core/`.** Destraban el reweighting general, `alfa` con tu $A(\iota)$, el test cruzado $N_{\rm gal}=1$ → bright y el test de que todos los escenarios usan `detectado`.
 - **El test sintético del reweighting (§6) especificado por vos.** Una aclaración honesta: `AGENTS.md` §9 pedía que ese test pasara *antes* de tocar GW170817, y lo hicimos al revés. Con pesos $d^2/d^2 = 1$ el resultado no cambia, pero el control quedó fuera de orden.
 - **La predicción de $N_{\rm eq}$ commiteada antes del barrido (§7).**
+- **Las likelihoods sintéticas (bright y dark) y, si lo acordamos, el generador de eventos.** Con eso corremos el piloto con `configs/piloto.yaml` y guardamos cada celda con `core/resultado.guardar_celda`.
