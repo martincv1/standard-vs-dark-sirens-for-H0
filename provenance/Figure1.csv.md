@@ -19,3 +19,4 @@ No aplica al archivo en sí. El análisis que lo produjo usa un prior $\propto 1
 
 ## Scripts que lo consumen
 - `scripts/verificar_prior_pe.py`
+- `scripts/validar_gw170817.py` (experimento 2)
