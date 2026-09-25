@@ -17,7 +17,7 @@ def celda():
     rng = np.random.default_rng(0)
     L = np.stack([[normalizar(stats.norm.pdf(h0, rng.uniform(60, 80), 10), h0) for _ in range(E)] for _ in range(R)])
     campos = {"a_obs": rng.uniform(0.01, 0.03, (R, E)), "cos_iota_true": rng.uniform(-1, 1, (R, E)),
-              "v_true": rng.uniform(2000, 4000, (R, E)), "detectado": np.ones((R, E), dtype=bool)}
+              "v_true": rng.uniform(2000, 4000, (R, E)), "n_descartados": rng.integers(0, 3, (R, E))}
     proc = procedencia("tests.test_resultado", 42, {"eps": 0.1, "n_gal": 10}, "1")
     return h0, L, campos, proc
 
@@ -101,3 +101,11 @@ def test_leer_valida_lo_que_hay_en_disco(tmp_path):
     np.savez(tmp_path / "c" / "likelihoods.npz", h0=h0, L=3 * L, **campos)
     with pytest.raises(ValueError, match="normalizada"):
         leer_celda(tmp_path / "c")
+
+
+@pytest.mark.parametrize("malo", [np.full((R, E), 0.5), np.full((R, E), -1)])
+def test_rechaza_n_descartados_no_entero_o_negativo(malo):
+    h0, L, campos, proc = celda()
+    campos["n_descartados"] = malo
+    with pytest.raises(ValueError, match="n_descartados"):
+        validar(h0, L, campos, proc)

@@ -67,7 +67,7 @@ Todas viven en `src/sirenas/core/` y se importan desde ahí.
                 + procedencia: {origen, semilla, config, versión del generador}
   ```
 - En disco, por celda del barrido, `results/<experimento>/<celda>/`:
-  - `likelihoods.npz`: `h0` (la grilla), `L` (array `[realizacion, evento, h0]`), `a_obs`, `cos_iota_true`, `v_true` y `detectado`;
+  - `likelihoods.npz`: `h0` (la grilla), `L` (array `[realizacion, evento, h0]`), `a_obs`, `cos_iota_true`, `v_true` y `n_descartados` (sorteos que no pasaron `detectado` antes de aceptar cada evento; `decisiones/2026-09-25-UC-n-descartados.md`). Todos los campos por evento tienen forma `[realizacion, evento]`;
   - `procedencia.json`: `origen` (módulo y función), `semilla`, `config` (copia literal del YAML de la celda), `version_generador`, `git_commit`, `git_dirty`, versiones de `numpy`/`scipy`/`python` y fecha UTC.
 - Configuraciones: un YAML por experimento en `configs/`. Semillas: `numpy.random.default_rng(semilla)`, con semilla por celda = `semilla_base + indice_celda` y semillas por realización generadas con `SeedSequence(semilla_celda).spawn(n_realizaciones)`.
 - Las figuras se hacen por script desde `results/`, nunca a mano, y cada figura lleva al lado un `.json` con los archivos de entrada y el commit.
@@ -79,7 +79,7 @@ Modelo generativo, idéntico a la likelihood (así el experimento 1 puede exigir
 1. $H_0^{\rm true} = 70$ km s⁻¹ Mpc⁻¹ (el MAP publicado de GW170817, redondeado).
 2. Velocidad de Hubble del host verdadero: $v_{\rm true} \sim \mathcal U[2000, 4000]$ km s⁻¹, que contiene los 3017 km s⁻¹ de NGC 4993. Distancia: $D_L = v_{\rm true}/H_0^{\rm true}$, entre 28,6 y 57,1 Mpc.
 3. $\cos\iota \sim \mathcal U[-1, 1]$ (prior isótropo).
-4. $a_{\rm obs} \sim \mathcal N(A(\iota)/D_L, \sigma_a)$; se aplica `detectado` y se vuelve a sortear si no pasa. Los eventos no detectados se cuentan y se guardan.
+4. $a_{\rm obs} \sim \mathcal N(A(\iota)/D_L, \sigma_a)$; se aplica `detectado` y se vuelve a sortear si no pasa. Los sorteos descartados se cuentan por evento (`n_descartados`, §2.5); la fracción aceptada estima $\alpha(H_0^{\rm true})$.
 5. Velocidad medida de cada galaxia: $v_{\rm obs} \sim \mathcal N(v, \sigma_v)$ con $\sigma_v = 166$ km s⁻¹, la incertidumbre total de $v_H$ de GW170817 (150 de velocidad peculiar + 72 de medición en cuadratura; Abbott et al. 2017). El sintético no tiene la corrección de 310 km s⁻¹: sus velocidades peculiares son de media cero.
 6. **Oscura:** el catálogo tiene el host verdadero más $N_{\rm gal}-1$ galaxias con $v \sim \mathcal U[2000, 4000]$ km s⁻¹ (uniforme en $z$ en $[0{,}00667;\ 0{,}01334]$, completo por construcción: `src/sirenas/catalogs/`). El orden de las galaxias se baraja. Pesos iguales, $w_g = 1/N_{\rm gal}$.
 7. **Modelo de $p_g$:** gaussiano en velocidad, $p_g(v) = \mathcal N(v; v_{{\rm obs},g}, \sigma_v)$.

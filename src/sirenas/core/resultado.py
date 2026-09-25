@@ -18,7 +18,9 @@ from pathlib import Path
 import numpy as np
 import scipy
 
-CAMPOS_EVENTO = ("a_obs", "cos_iota_true", "v_true", "detectado")  # spec.md §2.5
+# spec.md §2.5. n_descartados: sorteos que no pasaron `detectado` antes de aceptar el evento
+# (decisiones/2026-09-25-UC-n-descartados.md).
+CAMPOS_EVENTO = ("a_obs", "cos_iota_true", "v_true", "n_descartados")
 CLAVES_PROCEDENCIA = ("origen", "semilla", "config", "version_generador",
                       "git_commit", "git_dirty", "versiones", "fecha_utc")
 TOL_NORMA = 1e-6
@@ -59,6 +61,9 @@ def validar(h0: np.ndarray, L: np.ndarray, campos: dict, proc: dict) -> None:
     for c in CAMPOS_EVENTO:
         if np.shape(campos[c]) != L.shape[:2]:
             raise ValueError(f"el campo {c} tiene forma {np.shape(campos[c])}, se esperaba {L.shape[:2]}")
+    n = np.asarray(campos["n_descartados"])
+    if not np.issubdtype(n.dtype, np.integer) or np.any(n < 0):
+        raise ValueError("n_descartados tiene que ser un entero >= 0")
     faltan = [k for k in CLAVES_PROCEDENCIA if k not in proc]
     if faltan:
         raise ValueError(f"faltan claves de procedencia: {faltan}")
