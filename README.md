@@ -26,9 +26,30 @@ La implementación está delegada en agentes de IA. Los supervisamos con control
 ## Cómo empezar
 
 ```bash
-gh repo clone <owner>/<nombre> && cd <nombre>
+git clone https://github.com/martincv1/standard-vs-dark-sirens-for-H0.git
+cd standard-vs-dark-sirens-for-H0
 uv sync && uv run pytest
 ```
+
+Sin datos, los tests que leen `data/raw/` se saltean (aparecen como `skipped`).
+
+### Reproducir todo, en orden
+
+```bash
+uv run python scripts/descargar_datos.py     # 1. baja los insumos a data/raw/
+uv run python scripts/verificar_prior_pe.py  # 2. prior de PE de GW170817 (spec.md §4)
+uv run pytest                                # 3. todos los tests, ahora también los que usan data/raw/
+uv run python scripts/validar_gw170817.py    # 4. experimento 2: GW170817 contra el paper
+git diff --stat results figures              # 5. control de reproducción
+```
+
+1. **Descarga.** Si la URL oficial no responde, usa la copia archivada en la Wayback Machine y lo registra. Compara el SHA-256 de cada archivo con el de `provenance/` y **aborta si no coincide**. No se commitean datos crudos (`data/raw/` está en `.gitignore`).
+2. **Prior de PE.** Imprime los tests KS que verifican el prior $d^2$ e isótropo. Los valores esperados están en `provenance/GW170817_GWTC-1.hdf5.md`.
+3. **Tests.** Sin datos se saltean los que leen `data/raw/`; con datos corren todos.
+4. **Validación.** Reescribe `results/validacion_gw170817/` y `figures/validacion_gw170817.*`, e imprime los tres criterios de tolerancia. El resultado esperado (fuera de tolerancia, plan B) está en `decisiones/2026-09-25-UC-plan-b-validacion-gw170817.md`.
+5. **Control de reproducción.** En la máquina donde se generaron (Windows 10, con las versiones de `uv.lock`), `posterior.npz` y el `.png` salen **idénticos byte a byte** a los commiteados, y solo cambian los `.json` de procedencia (commit y fecha). En otra plataforma, el `.png` puede diferir en píxeles (fuentes) y el `.npz` en los últimos bits. Ahí el criterio es numérico: los tres números que imprime el paso 4 tienen que coincidir con los de `results/validacion_gw170817/procedencia.json` a la décima.
+
+Opcional: `uv run python scripts/verificar_espejos.py` vuelve a comparar `data/raw/` contra la fuente oficial y contra las capturas de la Wayback Machine. `uv run python scripts/inspeccionar_hdf5.py` lista el contenido del HDF5.
 
 Si no usás `uv`, ver la sección «Para el integrante Datos» de [`docs/SETUP_REPO.md`](docs/SETUP_REPO.md).
 
